@@ -24,3 +24,5 @@ mendixProject
 **/cypress-visual-report
 **/cypress-visual-screenshots/comparison
 **/cypress-visual-screenshots/diff
+
+tests
