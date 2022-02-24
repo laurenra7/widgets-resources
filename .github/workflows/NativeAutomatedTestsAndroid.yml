@@ -61,8 +61,12 @@ jobs:
               with:
                   path: ~/.npm
                   key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            - name: "Defining node version"
+              uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561 # v2
+              with:
+                  node-version-file: ".nvmrc"
             - name: "Installing dependencies"
-              run: npm install && npm run postinstall
+              run: npm install
             - name: Login to GitHub Container Registry
               if:
                   github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name ==

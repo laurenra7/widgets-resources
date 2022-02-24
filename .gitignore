@@ -19,6 +19,7 @@ mendixProject
 **/screenshot-results
 **/tests/testProject
 **/pluggableWidgets/**/artifacts
+
 **/cypress/videos
 **/cypress/screenshots
 **/cypress-visual-report
