@@ -10,6 +10,7 @@
     "url": "https://github.com/mendix/widgets-resources.git"
   },
   "config": {
+    "projectPath": "C:\\Users\\laurenra\\Documents\\Mendix\\Capital Needs Analysis-lauren-gallery-910",
     "mendixHost": "http://localhost:8080",
     "developmentPort": 3000
   },
