@@ -9,10 +9,10 @@ import {
     StructurePreviewProps,
     transformGroupsIntoTabs
 } from "@mendix/piw-utils-internal";
-import { GalleryPreviewProps } from "../typings/GalleryProps";
+import { GalleryPlusPreviewProps } from "../typings/GalleryPlusProps";
 
 export function getProperties(
-    values: GalleryPreviewProps,
+    values: GalleryPlusPreviewProps,
     defaultProperties: Properties,
     platform: "web" | "desktop"
 ): Properties {
@@ -52,7 +52,7 @@ export function getProperties(
     return defaultProperties;
 }
 
-export function check(values: GalleryPreviewProps): Problem[] {
+export function check(values: GalleryPlusPreviewProps): Problem[] {
     const errors: Problem[] = [];
     if (!values.desktopItems || values.desktopItems < 1 || values.desktopItems > 12) {
         errors.push({
@@ -75,7 +75,7 @@ export function check(values: GalleryPreviewProps): Problem[] {
     return errors;
 }
 
-export function getPreview(values: GalleryPreviewProps, isDarkMode: boolean): StructurePreviewProps {
+export function getPreview(values: GalleryPlusPreviewProps, isDarkMode: boolean): StructurePreviewProps {
     const filterCaption =
         values.filterList.length > 0
             ? values.sortList.length > 0

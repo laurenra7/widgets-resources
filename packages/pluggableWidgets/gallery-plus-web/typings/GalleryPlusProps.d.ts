@@ -1,5 +1,5 @@
 /**
- * This file was generated from Gallery.xml
+ * This file was generated from GalleryPlus.xml
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix UI Content Team
  */
