@@ -5,7 +5,7 @@
             <widgetFile path="GalleryPlus.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/gallery-plus/" />
+            <file path="com/mendix/widget/web/galleryplus/" />
         </files>
     </clientModule>
 </package>

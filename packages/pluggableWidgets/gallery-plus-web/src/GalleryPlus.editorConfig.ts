@@ -97,7 +97,7 @@ export function getPreview(values: GalleryPlusPreviewProps, isDarkMode: boolean)
                 children: [
                     {
                         type: "Text",
-                        content: "Gallery",
+                        content: "GalleryPlus",
                         fontColor: isDarkMode ? "#6DB1FE" : "#2074C8"
                     }
                 ]
