@@ -22,6 +22,7 @@ export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
+    filterName: string;
 }
 
 export interface SortListType {
@@ -31,6 +32,7 @@ export interface SortListType {
 
 export interface FilterListPreviewType {
     filter: string;
+    filterName: string;
 }
 
 export interface SortListPreviewType {

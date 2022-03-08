@@ -2,12 +2,12 @@ import { createElement, ReactElement, useCallback, useEffect, useMemo, useRef, u
 import { GalleryPlusContainerProps } from "../typings/GalleryPlusProps";
 import { GalleryPlusComponent as GalleryPlusComponent } from "./components/GalleryPlusComponent";
 import {
-    FilterType,
     SortInstruction,
     SortFunction,
-    useFilterContext,
-    useMultipleFiltering,
-    useSortContext
+    useNoLimitFilterContext,
+    useNoLimitFiltering,
+    useSortContext,
+    NoLimitFilterFunction
 } from "@mendix/piw-utils-internal/components/web";
 import { FilterCondition } from "mendix/filters";
 import { extractFilters } from "./utils/filters";
@@ -19,9 +19,10 @@ export function GalleryPlus(props: GalleryPlusContainerProps): ReactElement {
     const viewStateSort = useRef<SortInstruction[] | undefined>(undefined);
     const [filtered, setFiltered] = useState(false);
     const [sorted, setSorted] = useState(false);
-    const customFiltersState = useMultipleFiltering();
+    // const customFiltersState = useMultipleFiltering();
+    const [filterState, setFilterState] = useNoLimitFiltering();
     const [sortState, setSortState] = useState<SortFunction>();
-    const { FilterContext } = useFilterContext();
+    const { FilterContext } = useNoLimitFilterContext();
     const { SortContext } = useSortContext();
     const isInfiniteLoad = props.pagination === "virtualScrolling";
     const currentPage = isInfiniteLoad
@@ -45,7 +46,11 @@ export function GalleryPlus(props: GalleryPlusContainerProps): ReactElement {
     }, [props.datasource, filtered, sorted]);
 
     const filterList = useMemo(
-        () => props.filterList.reduce((filters, { filter }) => ({ ...filters, [filter.id]: filter }), {}),
+        () =>
+            props.filterList.reduce(
+                (filters, { filter, filterName }) => ({ ...filters, [filter.id]: { filter, filterName } }),
+                {}
+            ),
         [props.filterList]
     );
 
@@ -70,9 +75,18 @@ export function GalleryPlus(props: GalleryPlusContainerProps): ReactElement {
         [props.filterList, viewStateFilters.current]
     );
 
-    const filters = Object.keys(customFiltersState)
-        .map((key: FilterType) => customFiltersState[key][0]?.getFilterCondition())
+    let preFilters: Array<NoLimitFilterFunction> = [];
+    for (let s in filterState) {
+        const filter = filterState[parseInt(s)];
+        preFilters.push(filter);
+    }
+    const filters: Array<FilterCondition> = preFilters
+        .map(filter => filter.getFilterCondition())
         .filter((filter): filter is FilterCondition => filter !== undefined);
+
+    // const filters = Object.keys(customFiltersState)
+    //     .map((key: FilterType) => customFiltersState[key][0]?.getFilterCondition())
+    //     .filter((filter): filter is FilterCondition => filter !== undefined);
 
     if (filters.length > 0) {
         props.datasource.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
@@ -119,12 +133,22 @@ export function GalleryPlus(props: GalleryPlusContainerProps): ReactElement {
                         <FilterContext.Provider
                             value={{
                                 filterDispatcher: prev => {
-                                    if (prev.filterType) {
-                                        const [, filterDispatcher] = customFiltersState[prev.filterType];
-                                        filterDispatcher(prev);
-                                        setFiltered(true);
+                                    if (prev.key) {
+                                        if (filterState !== undefined) {
+                                            setFilterState({
+                                                ...filterState,
+                                                [prev.key]: prev
+                                            });
+                                            setFiltered(true);
+                                        }
                                     }
                                     return prev;
+                                    // if (prev.filterType) {
+                                    //     const [, filterDispatcher] = customFiltersState[prev.filterType];
+                                    //     filterDispatcher(prev);
+                                    //     setFiltered(true);
+                                    // }
+                                    // return prev;
                                 },
                                 multipleAttributes: filterList,
                                 multipleInitialFilters: initialFilters
@@ -148,7 +172,7 @@ export function GalleryPlus(props: GalleryPlusContainerProps): ReactElement {
                 [
                     FilterContext,
                     SortContext,
-                    customFiltersState,
+                    filterState,
                     filterList,
                     initialFilters,
                     isSortableFilterable,
