@@ -25,10 +25,10 @@ import {
     StructurePreviewProps,
     TextProps
 } from "@mendix/piw-utils-internal";
-import { DatagridTextFilterPreviewProps, DefaultFilterEnum } from "../typings/DatagridTextFilterProps";
+import { DatagridTextFilterPlusPreviewProps, DefaultFilterEnum } from "../typings/DatagridTextFilterPlusProps";
 
 export function getProperties(
-    values: DatagridTextFilterPreviewProps,
+    values: DatagridTextFilterPlusPreviewProps,
     defaultProperties: Properties,
     platform: "web" | "desktop"
 ): Properties {
@@ -45,7 +45,7 @@ export function getProperties(
     return defaultProperties;
 }
 
-export const getPreview = (values: DatagridTextFilterPreviewProps, isDarkMode: boolean): StructurePreviewProps => {
+export const getPreview = (values: DatagridTextFilterPlusPreviewProps, isDarkMode: boolean): StructurePreviewProps => {
     const adjustableByUserContainer = values.adjustable
         ? [
               {

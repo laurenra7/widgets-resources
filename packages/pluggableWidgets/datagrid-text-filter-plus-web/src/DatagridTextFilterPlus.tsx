@@ -1,7 +1,7 @@
 import { createElement, ReactElement, useRef } from "react";
 import { DatagridTextFilterPlusContainerProps, DefaultFilterEnum } from "../typings/DatagridTextFilterPlusProps";
 
-import { FilterComponent } from "./components/FilterPlusComponent";
+import { FilterPlusComponent } from "./components/FilterPlusComponent";
 import { Alert, FilterType, getFilterDispatcher, generateUUID } from "@mendix/piw-utils-internal/components/web";
 
 import {
@@ -78,7 +78,7 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
                 }
 
                 return (
-                    <FilterComponent
+                    <FilterPlusComponent
                         adjustable={props.adjustable}
                         className={props.class}
                         defaultFilter={defaultFilter?.type ?? props.defaultFilter}

@@ -1,5 +1,5 @@
 /**
- * This file was generated from DatagridTextFilter.xml
+ * This file was generated from DatagridTextFilterPlus.xml
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix UI Content Team
  */
