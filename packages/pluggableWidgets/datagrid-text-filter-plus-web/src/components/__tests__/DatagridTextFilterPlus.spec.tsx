@@ -61,16 +61,22 @@ describe("Text Filter", () => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
                     filterDispatcher: jest.fn(),
                     multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("String")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("HashString")
-                            .withFilterable(true)
-                            .build()
+                        attribute1: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("String")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "Attribute1"
+                        },
+                        attribute2: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("String")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "Attribute1"
+                        }
                     }
                 } as FilterContextValue);
             });
@@ -112,16 +118,22 @@ describe("Text Filter", () => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
                     filterDispatcher: jest.fn(),
                     multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("Decimal")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("Long")
-                            .withFilterable(true)
-                            .build()
+                        attribute1: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("Decimal")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "Attribute1"
+                        },
+                        attribute2: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("Long")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "Attribute1"
+                        }
                     }
                 } as FilterContextValue);
             });

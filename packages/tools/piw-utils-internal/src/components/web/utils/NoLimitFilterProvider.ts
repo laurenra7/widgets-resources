@@ -14,11 +14,11 @@ export const enum NoLimitFilterType {
 export interface NoLimitFilterFunction {
     getFilterCondition: () => FilterCondition | undefined;
     filterType?: NoLimitFilterType;
-    key: number;
+    key: string;
 }
 
 interface NoLimitFilterContainer {
-    [key: number]: NoLimitFilterFunction;
+    [key: string]: NoLimitFilterFunction;
 }
 
 export interface NoLimitFilterContextValue {

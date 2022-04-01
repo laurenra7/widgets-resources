@@ -2,7 +2,12 @@ import { createElement, ReactElement, useRef } from "react";
 import { DatagridTextFilterPlusContainerProps, DefaultFilterEnum } from "../typings/DatagridTextFilterPlusProps";
 
 import { FilterPlusComponent } from "./components/FilterPlusComponent";
-import { Alert, FilterType, getFilterDispatcher, generateUUID } from "@mendix/piw-utils-internal/components/web";
+import {
+    Alert,
+    NoLimitFilterType,
+    getNoLimitFilterDispatcher,
+    generateUUID
+} from "@mendix/piw-utils-internal/components/web";
 
 import {
     attribute,
@@ -23,9 +28,11 @@ import { ListAttributeValue } from "mendix";
 import { translateFilters } from "./utils/filters";
 
 export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusContainerProps): ReactElement {
+    // const UUID = generateUUID();
+    // const id = useRef(`TextFilter${UUID}`);
     const id = useRef(`TextFilter${generateUUID()}`);
 
-    const FilterContext = getFilterDispatcher();
+    const FilterContext = getNoLimitFilterDispatcher();
     const alertMessage = (
         <Alert bootstrapStyle="danger">
             The Text filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget.
@@ -40,11 +47,11 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
 
     return FilterContext?.Consumer ? (
         <FilterContext.Consumer>
-            {filterContextValue => {
+            {noLimitfilterContextValue => {
                 if (
-                    !filterContextValue ||
-                    !filterContextValue.filterDispatcher ||
-                    (!filterContextValue.singleAttribute && !filterContextValue.multipleAttributes)
+                    !noLimitfilterContextValue ||
+                    !noLimitfilterContextValue.filterDispatcher ||
+                    (!noLimitfilterContextValue.singleAttribute && !noLimitfilterContextValue.multipleAttributes)
                 ) {
                     return alertMessage;
                 }
@@ -54,11 +61,11 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
                     multipleAttributes,
                     singleInitialFilter,
                     multipleInitialFilters
-                } = filterContextValue;
+                } = noLimitfilterContextValue;
 
                 const attributes = [
                     ...(singleAttribute ? [singleAttribute] : []),
-                    ...(multipleAttributes ? findAttributesByType(multipleAttributes) ?? [] : [])
+                    ...(multipleAttributes ? findAttributesByType(multipleAttributes, props.name) ?? [] : [])
                 ];
 
                 if (attributes.length === 0) {
@@ -101,7 +108,8 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
                             filterDispatcher({
                                 getFilterCondition: () =>
                                     conditions && conditions.length > 1 ? or(...conditions) : conditions?.[0],
-                                filterType: FilterType.STRING
+                                filterType: NoLimitFilterType.STRING,
+                                key: props.name
                             });
                         }}
                         value={defaultFilter?.value ?? props.defaultValue?.value}
@@ -114,15 +122,35 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
     );
 }
 
-function findAttributesByType(multipleAttributes?: {
-    [key: string]: ListAttributeValue;
-}): ListAttributeValue[] | undefined {
+// function findAttributesByType(multipleAttributes?: {
+//     [key: string]: {filter:ListAttributeValue, filterName:string };
+// }, filterName?: string): ListAttributeValue[] | undefined {
+//     if (!multipleAttributes) {
+//         return undefined;
+//     }
+//     return Object.keys(multipleAttributes)
+//         .map(key => multipleAttributes[key])
+//         // .filter(attr => attr.type.match(/HashString|String/));
+//         .filter(attr => attr.filterName === filterName)
+//         .map(attr => attr.filter);
+// }
+
+function findAttributesByType(
+    multipleAttributes?: {
+        [key: string]: { filter: ListAttributeValue; filterName: string };
+    },
+    filterName?: string
+): ListAttributeValue[] | undefined {
     if (!multipleAttributes) {
         return undefined;
     }
-    return Object.keys(multipleAttributes)
-        .map(key => multipleAttributes[key])
-        .filter(attr => attr.type.match(/HashString|String/));
+    return (
+        Object.keys(multipleAttributes)
+            .map(key => multipleAttributes[key])
+            // .filter(attr => attr.type.match(/HashString|String/));
+            .filter(attr => attr.filterName === filterName)
+            .map(attr => attr.filter)
+    );
 }
 
 function getAttributeTypeErrorMessage(type?: string): string | null {

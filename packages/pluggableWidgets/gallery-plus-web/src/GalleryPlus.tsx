@@ -75,9 +75,12 @@ export function GalleryPlus(props: GalleryPlusContainerProps): ReactElement {
         [props.filterList, viewStateFilters.current]
     );
 
+    // const preFilters: Array<NoLimitFilterFunction> = [];
+    // Object.keys(filterState).forEach((filter) => preFilters.push(filter));
     let preFilters: Array<NoLimitFilterFunction> = [];
     for (let s in filterState) {
-        const filter = filterState[parseInt(s)];
+        // const filter = filterState[parseInt(s)];
+        const filter = filterState[s];
         preFilters.push(filter);
     }
     const filters: Array<FilterCondition> = preFilters
@@ -134,6 +137,7 @@ export function GalleryPlus(props: GalleryPlusContainerProps): ReactElement {
                             value={{
                                 filterDispatcher: prev => {
                                     if (prev.key) {
+                                        console.log(prev.key);
                                         if (filterState !== undefined) {
                                             setFilterState({
                                                 ...filterState,
