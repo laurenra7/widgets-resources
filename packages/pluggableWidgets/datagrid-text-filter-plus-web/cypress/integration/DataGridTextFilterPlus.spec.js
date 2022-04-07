@@ -1,4 +1,4 @@
-describe("datagrid-text-filter-web", () => {
+describe("datagrid-text-filter-plus-web", () => {
     beforeEach(() => {
         cy.visit("/"); // resets page
     });
