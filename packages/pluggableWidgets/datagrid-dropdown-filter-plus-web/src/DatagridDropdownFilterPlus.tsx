@@ -2,7 +2,13 @@ import { createElement, ReactElement, useRef } from "react";
 import { DatagridDropdownFilterPlusContainerProps } from "../typings/DatagridDropdownFilterPlusProps";
 import { ValueStatus, ListAttributeValue } from "mendix";
 import { FilterComponentPlus, FilterOptionPlus } from "./components/FilterComponentPlus";
-import { Alert, FilterType, getFilterDispatcher, generateUUID } from "@mendix/piw-utils-internal/components/web";
+import {
+    Alert,
+    NoLimitFilterType,
+    // getFilterDispatcher,
+    generateUUID,
+    getNoLimitFilterDispatcher
+} from "@mendix/piw-utils-internal/components/web";
 
 import { attribute, equals, literal, or } from "mendix/filters/builders";
 import { FilterCondition } from "mendix/filters";
@@ -10,7 +16,8 @@ import { FilterCondition } from "mendix/filters";
 export default function DatagridDropdownFilterPlus(props: DatagridDropdownFilterPlusContainerProps): ReactElement {
     const id = useRef(`DropdownFilterPlus${generateUUID()}`);
 
-    const FilterContext = getFilterDispatcher();
+    // const FilterContext = getFilterDispatcher();
+    const FilterContext = getNoLimitFilterDispatcher();
     const isAllOptionsReady = props.filterOptions.every(
         ({ value, caption }) => value.status === ValueStatus.Available && caption.status === ValueStatus.Available
     );
@@ -54,7 +61,7 @@ export default function DatagridDropdownFilterPlus(props: DatagridDropdownFilter
 
                 const attributes = [
                     ...(singleAttribute ? [singleAttribute] : []),
-                    ...(multipleAttributes ? findAttributesByType(multipleAttributes) ?? [] : [])
+                    ...(multipleAttributes ? findAttributesByType(multipleAttributes, props.name) ?? [] : [])
                 ];
 
                 if (attributes.length === 0) {
@@ -103,7 +110,8 @@ export default function DatagridDropdownFilterPlus(props: DatagridDropdownFilter
                             filterDispatcher({
                                 getFilterCondition: () =>
                                     conditions && conditions.length > 1 ? or(...conditions) : conditions?.[0],
-                                filterType: FilterType.ENUMERATION
+                                filterType: NoLimitFilterType.ENUMERATION,
+                                key: props.name
                             });
                         }}
                     />
@@ -115,15 +123,33 @@ export default function DatagridDropdownFilterPlus(props: DatagridDropdownFilter
     );
 }
 
-function findAttributesByType(multipleAttributes?: {
-    [key: string]: ListAttributeValue;
-}): ListAttributeValue[] | undefined {
+// function findAttributesByType(multipleAttributes?: {
+//     [key: string]: ListAttributeValue;
+// }): ListAttributeValue[] | undefined {
+//     if (!multipleAttributes) {
+//         return undefined;
+//     }
+//     return Object.keys(multipleAttributes)
+//         .map(key => multipleAttributes[key])
+//         .filter(attr => attr.type.match(/Enum|Boolean/));
+// }
+
+function findAttributesByType(
+    multipleAttributes?: {
+        [key: string]: { filter: ListAttributeValue; filterName: string };
+    },
+    filterName?: string
+): ListAttributeValue[] | undefined {
     if (!multipleAttributes) {
         return undefined;
     }
-    return Object.keys(multipleAttributes)
-        .map(key => multipleAttributes[key])
-        .filter(attr => attr.type.match(/Enum|Boolean/));
+    return (
+        Object.keys(multipleAttributes)
+            .map(key => multipleAttributes[key])
+            // .filter(attr => attr.type.match(/HashString|String/));
+            .filter(attr => attr.filterName === filterName)
+            .map(attr => attr.filter)
+    );
 }
 
 function getAttributeTypeErrorMessage(type?: string): string | null {
