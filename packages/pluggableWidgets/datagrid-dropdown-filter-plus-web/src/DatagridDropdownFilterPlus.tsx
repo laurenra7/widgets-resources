@@ -146,7 +146,7 @@ function findAttributesByType(
     return (
         Object.keys(multipleAttributes)
             .map(key => multipleAttributes[key])
-            // .filter(attr => attr.type.match(/HashString|String/));
+            // .filter(attr => attr.type.match(/Enum|Boolean/));
             .filter(attr => attr.filterName === filterName)
             .map(attr => attr.filter)
     );
