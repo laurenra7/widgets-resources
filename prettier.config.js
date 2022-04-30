@@ -5,15 +5,22 @@ module.exports = {
     plugins: [require.resolve("@prettier/plugin-xml")],
     overrides: [
         {
-            files: ["CHANGELOG.md", ".travis.yml"],
+            files: ["CHANGELOG.md"],
             options: {
                 proseWrap: "preserve"
             }
         },
         {
-            files: ["package.json", "package.json"],
+            files: "package.json",
             options: {
                 tabWidth: 2
+            }
+        },
+        {
+            files: "package-lock.json",
+            options: {
+                tabWidth: 4,
+                useTabs: false
             }
         },
         {

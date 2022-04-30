@@ -1,7 +1,9 @@
 import {
+    ContainerProps,
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
+    ImageProps,
     Problem,
     Properties,
     StructurePreviewProps,
@@ -9,13 +11,16 @@ import {
 } from "@mendix/piw-utils-internal";
 import { AreaChartPreviewProps } from "../typings/AreaChartProps";
 
+import AreaChartLightSvg from "./assets/AreaChart.light.svg";
+import AreaChartDarkSvg from "./assets/AreaChart.dark.svg";
+import AreaChartLegendLightSvg from "./assets/AreaChart-legend.light.svg";
+import AreaChartLegendDarkSvg from "./assets/AreaChart-legend.dark.svg";
+
 export function getProperties(
     values: AreaChartPreviewProps,
     defaultProperties: Properties,
     platform: "web" | "desktop"
 ): Properties {
-    const showAdvancedOptions = values.developerMode !== "basic";
-
     values.series.forEach((line, index) => {
         if (line.dataSet === "static") {
             hideNestedPropertiesIn(defaultProperties, values, "series", index, [
@@ -38,25 +43,62 @@ export function getProperties(
         if (line.lineStyle !== "lineWithMarkers") {
             hideNestedPropertiesIn(defaultProperties, values, "series", index, ["markerColor"]);
         }
-        if (!showAdvancedOptions) {
+        if (!values.enableAdvancedOptions && platform === "web") {
             hidePropertyIn(defaultProperties, values, "series", index, "customSeriesOptions");
         }
     });
 
     if (platform === "web") {
-        hidePropertyIn(defaultProperties, values, "developerMode");
+        if (!values.enableAdvancedOptions) {
+            hidePropertiesIn(defaultProperties, values, [
+                "customLayout",
+                "customConfigurations",
+                "enableThemeConfig",
+                "enableDeveloperMode"
+            ]);
+        }
 
         transformGroupsIntoTabs(defaultProperties);
     } else {
-        if (!showAdvancedOptions) {
-            hidePropertiesIn(defaultProperties, values, ["customLayout", "customConfigurations", "enableThemeConfig"]);
-        }
+        hidePropertyIn(defaultProperties, values, "enableAdvancedOptions");
     }
     return defaultProperties;
 }
 
-export function getPreview(_values: AreaChartPreviewProps): StructurePreviewProps | null {
-    return null;
+export function getPreview(values: AreaChartPreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
+    const items = {
+        dark: { structure: AreaChartDarkSvg, legend: AreaChartLegendDarkSvg },
+        light: { structure: AreaChartLightSvg, legend: AreaChartLegendLightSvg }
+    };
+
+    const getImage = (type: "structure" | "legend") => {
+        const colorMode = isDarkMode ? "dark" : "light";
+        return items[colorMode][type];
+    };
+
+    const chartImage = {
+        type: "Image",
+        document: decodeURIComponent(getImage("structure").replace("data:image/svg+xml,", "")),
+        width: 375
+    } as ImageProps;
+
+    const legendImage = {
+        type: "Image",
+        document: decodeURIComponent(getImage("legend").replace("data:image/svg+xml,", "")),
+        width: 85
+    } as ImageProps;
+
+    const filler = {
+        type: "Container",
+        grow: 1,
+        children: []
+    } as ContainerProps;
+
+    return {
+        type: "RowLayout",
+        columnSize: "fixed",
+        children: values.showLegend ? [chartImage, legendImage, filler] : [chartImage, filler]
+    };
 }
 
 export function check(values: AreaChartPreviewProps): Problem[] {

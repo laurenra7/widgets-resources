@@ -1,4 +1,4 @@
-import { ColumnChartPreviewProps } from "../typings/ColumnChartProps";
+import { ColumnChartPreviewProps, BarmodeEnum } from "../typings/ColumnChartProps";
 import {
     hideNestedPropertiesIn,
     hidePropertiesIn,
@@ -6,15 +6,23 @@ import {
     Problem,
     Properties,
     StructurePreviewProps,
-    transformGroupsIntoTabs
+    transformGroupsIntoTabs,
+    ImageProps,
+    ContainerProps
 } from "@mendix/piw-utils-internal";
+
+import ColumnChartGroupedDark from "./assets/ColumnChart-grouped.dark.svg";
+import ColumnChartGroupedLight from "./assets/ColumnChart-grouped.light.svg";
+import ColumnChartStackedDark from "./assets/ColumnChart-stacked.dark.svg";
+import ColumnChartStackedLight from "./assets/ColumnChart-stacked.light.svg";
+import ColumnChartLegendDark from "./assets/ColumnChart-legend.dark.svg";
+import ColumnChartLegendLight from "./assets/ColumnChart-legend.light.svg";
 
 export function getProperties(
     values: ColumnChartPreviewProps,
     defaultProperties: Properties,
     platform: "web" | "desktop"
 ): Properties {
-    const showAdvancedOptions = values.developerMode !== "basic";
     values.series.forEach((dataSeries, index) => {
         if (dataSeries.dataSet === "static") {
             hideNestedPropertiesIn(defaultProperties, values, "series", index, [
@@ -35,26 +43,69 @@ export function getProperties(
             ]);
         }
 
-        if (!showAdvancedOptions) {
+        if (!values.advancedOptions && platform === "web") {
             hidePropertyIn(defaultProperties, values, "series", index, "customSeriesOptions");
         }
     });
 
     if (platform === "web") {
-        hidePropertyIn(defaultProperties, values, "developerMode");
+        if (!values.advancedOptions) {
+            hidePropertiesIn(defaultProperties, values, [
+                "customLayout",
+                "customConfigurations",
+                "enableThemeConfig",
+                "developerMode"
+            ]);
+        }
 
         transformGroupsIntoTabs(defaultProperties);
     } else {
-        if (!showAdvancedOptions) {
-            hidePropertiesIn(defaultProperties, values, ["customLayout", "customConfigurations", "enableThemeConfig"]);
-        }
+        hidePropertiesIn(defaultProperties, values, ["advancedOptions"]);
     }
 
     return defaultProperties;
 }
 
-export function getPreview(_values: ColumnChartPreviewProps): StructurePreviewProps | null {
-    return null;
+export function getPreview(values: ColumnChartPreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
+    const items = {
+        group: {
+            dark: { structure: ColumnChartGroupedDark, legend: ColumnChartLegendDark },
+            light: { structure: ColumnChartGroupedLight, legend: ColumnChartLegendLight }
+        },
+        stack: {
+            dark: { structure: ColumnChartStackedDark, legend: ColumnChartLegendDark },
+            light: { structure: ColumnChartStackedLight, legend: ColumnChartLegendLight }
+        }
+    };
+
+    const getImage = (barMode: BarmodeEnum, type: "structure" | "legend") => {
+        const colorMode = isDarkMode ? "dark" : "light";
+        return items[barMode][colorMode][type];
+    };
+
+    const chartImage = {
+        type: "Image",
+        document: decodeURIComponent(getImage(values.barmode, "structure").replace("data:image/svg+xml,", "")),
+        width: 375
+    } as ImageProps;
+
+    const legendImage = {
+        type: "Image",
+        document: decodeURIComponent(getImage(values.barmode, "legend").replace("data:image/svg+xml,", "")),
+        width: 85
+    } as ImageProps;
+
+    const filler = {
+        type: "Container",
+        grow: 1,
+        children: []
+    } as ContainerProps;
+
+    return {
+        type: "RowLayout",
+        columnSize: "fixed",
+        children: values.showLegend ? [chartImage, legendImage, filler] : [chartImage, filler]
+    };
 }
 
 export function check(values: ColumnChartPreviewProps): Problem[] {

@@ -1,15 +1,19 @@
 import { by, element, device } from "detox";
 import { readFileSync } from "fs";
+import { MatchImageSnapshotOptions } from "jest-image-snapshot";
 import "../jest.detox.startup";
 
-export async function expectToMatchScreenshot(element?: Detox.NativeElement): Promise<void> {
+export async function expectToMatchScreenshot(
+    element?: Detox.NativeElement,
+    options?: MatchImageSnapshotOptions
+): Promise<void> {
     let screenshotPath: string;
     if (element) {
         screenshotPath = await element.takeScreenshot("screenshot");
     } else {
         screenshotPath = await device.takeScreenshot("screenshot");
     }
-    expect(readFileSync(screenshotPath)).toMatchImageSnapshot();
+    expect(readFileSync(screenshotPath)).toMatchImageSnapshot(options);
 }
 
 export async function setText(element: Detox.NativeElement, text: string): Promise<void> {
@@ -45,4 +49,8 @@ export async function resetDevice(): Promise<void> {
         await device.setURLBlacklist([`http://localhost:8080/components.json`]);
         await element(by.id("btn_launch_app")).tap();
     }
+}
+
+export async function sleep(time: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, time));
 }

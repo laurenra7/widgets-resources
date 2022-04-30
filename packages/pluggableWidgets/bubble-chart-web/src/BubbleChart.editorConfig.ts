@@ -1,7 +1,9 @@
 import {
+    ContainerProps,
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
+    ImageProps,
     Problem,
     Properties,
     StructurePreviewProps,
@@ -9,13 +11,16 @@ import {
 } from "@mendix/piw-utils-internal";
 import { BubbleChartPreviewProps } from "../typings/BubbleChartProps";
 
+import BubbleChartLightSvg from "./assets/BubbleChart.light.svg";
+import BubbleChartDarkSvg from "./assets/BubbleChart.dark.svg";
+import BubbleChartLegendLightSvg from "./assets/BubbleChart-legend.light.svg";
+import BubbleChartLegendDarkSvg from "./assets/BubbleChart-legend.dark.svg";
+
 export function getProperties(
     values: BubbleChartPreviewProps,
     defaultProperties: Properties,
     platform: "web" | "desktop"
 ): Properties {
-    const showAdvancedOptions = values.developerMode !== "basic";
-
     values.lines.forEach((line, index) => {
         // Series properties
         if (line.dataSet === "static") {
@@ -38,7 +43,7 @@ export function getProperties(
                 "staticTooltipHoverText"
             ]);
         }
-        if (!showAdvancedOptions) {
+        if (!values.enableAdvancedOptions && platform === "web") {
             hidePropertyIn(defaultProperties, values, "lines", index, "customSeriesOptions");
         }
         if (line.autosize) {
@@ -47,19 +52,56 @@ export function getProperties(
     });
 
     if (platform === "web") {
-        hidePropertyIn(defaultProperties, values, "developerMode");
+        if (!values.enableAdvancedOptions) {
+            hidePropertiesIn(defaultProperties, values, [
+                "customLayout",
+                "customConfigurations",
+                "enableThemeConfig",
+                "enableDeveloperMode"
+            ]);
+        }
 
         transformGroupsIntoTabs(defaultProperties);
     } else {
-        if (!showAdvancedOptions) {
-            hidePropertiesIn(defaultProperties, values, ["customLayout", "customConfigurations", "enableThemeConfig"]);
-        }
+        hidePropertyIn(defaultProperties, values, "enableAdvancedOptions");
     }
     return defaultProperties;
 }
 
-export function getPreview(_values: BubbleChartPreviewProps): StructurePreviewProps | null {
-    return null;
+export function getPreview(values: BubbleChartPreviewProps, isDarkMode: boolean): StructurePreviewProps | null {
+    const items = {
+        dark: { structure: BubbleChartDarkSvg, legend: BubbleChartLegendDarkSvg },
+        light: { structure: BubbleChartLightSvg, legend: BubbleChartLegendLightSvg }
+    };
+
+    const getImage = (type: "structure" | "legend") => {
+        const colorMode = isDarkMode ? "dark" : "light";
+        return items[colorMode][type];
+    };
+
+    const chartImage = {
+        type: "Image",
+        document: decodeURIComponent(getImage("structure").replace("data:image/svg+xml,", "")),
+        width: 375
+    } as ImageProps;
+
+    const legendImage = {
+        type: "Image",
+        document: decodeURIComponent(getImage("legend").replace("data:image/svg+xml,", "")),
+        width: 85
+    } as ImageProps;
+
+    const filler = {
+        type: "Container",
+        grow: 1,
+        children: []
+    } as ContainerProps;
+
+    return {
+        type: "RowLayout",
+        columnSize: "fixed",
+        children: values.showLegend ? [chartImage, legendImage, filler] : [chartImage, filler]
+    };
 }
 
 export function check(values: BubbleChartPreviewProps): Problem[] {
