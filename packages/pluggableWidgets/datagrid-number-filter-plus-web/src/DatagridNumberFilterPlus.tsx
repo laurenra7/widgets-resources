@@ -2,7 +2,12 @@ import { createElement, ReactElement, useRef } from "react";
 import { DatagridNumberFilterPlusContainerProps, DefaultFilterEnum } from "../typings/DatagridNumberFilterPlusProps";
 
 import { FilterPlusComponent } from "./components/FilterComponent";
-import { Alert, NoLimitFilterType, getNoLimitFilterDispatcher, generateUUID } from "@mendix/piw-utils-internal/components/web";
+import {
+    Alert,
+    NoLimitFilterType,
+    getNoLimitFilterDispatcher,
+    generateUUID
+} from "@mendix/piw-utils-internal/components/web";
 import { Big } from "big.js";
 
 import {
@@ -56,7 +61,7 @@ export default function DatagridNumberFilterPlus(props: DatagridNumberFilterPlus
 
                 const attributes = [
                     ...(singleAttribute ? [singleAttribute] : []),
-                    ...(multipleAttributes ? findAttributesByType(multipleAttributes) ?? [] : [])
+                    ...(multipleAttributes ? findAttributesByType(multipleAttributes, props.name) ?? [] : [])
                 ];
 
                 if (attributes.length === 0) {
@@ -101,8 +106,8 @@ export default function DatagridNumberFilterPlus(props: DatagridNumberFilterPlus
                             filterDispatcher({
                                 getFilterCondition: () =>
                                     conditions && conditions.length > 1 ? or(...conditions) : conditions?.[0],
-                                    filterType: NoLimitFilterType.NUMBER,
-                                    key: props.name
+                                filterType: NoLimitFilterType.NUMBER,
+                                key: props.name
                             });
                         }}
                         value={defaultFilter?.value ?? props.defaultValue?.value}
@@ -115,15 +120,33 @@ export default function DatagridNumberFilterPlus(props: DatagridNumberFilterPlus
     );
 }
 
-function findAttributesByType(multipleAttributes?: {
-    [key: string]: ListAttributeValue;
-}): ListAttributeValue[] | undefined {
+// function findAttributesByType(multipleAttributes?: {
+//     [key: string]: {filter:ListAttributeValue, filterName:string};
+// }): ListAttributeValue[] | undefined {
+//     if (!multipleAttributes) {
+//         return undefined;
+//     }
+//     return Object.keys(multipleAttributes)
+//         .map(key => multipleAttributes[key])
+//         .filter(attr => attr.type.match(/AutoNumber|Decimal|Integer|Long/));
+// }
+
+function findAttributesByType(
+    multipleAttributes?: {
+        [key: string]: {
+            filter: ListAttributeValue;
+            filterName: string;
+        };
+    },
+    filterName?: string
+): ListAttributeValue[] | undefined {
     if (!multipleAttributes) {
         return undefined;
     }
     return Object.keys(multipleAttributes)
         .map(key => multipleAttributes[key])
-        .filter(attr => attr.type.match(/AutoNumber|Decimal|Integer|Long/));
+        .filter(attr => attr.filterName === filterName)
+        .map(attr => attr.filter);
 }
 
 function getAttributeTypeErrorMessage(type?: string): string | null {
