@@ -9,7 +9,7 @@ import { Big } from "big.js";
 
 export type DefaultFilterEnum = "greater" | "greaterEqual" | "equal" | "notEqual" | "smaller" | "smallerEqual";
 
-export interface DatagridNumberFilterContainerProps {
+export interface DatagridNumberFilterPlusContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
@@ -26,7 +26,7 @@ export interface DatagridNumberFilterContainerProps {
     screenReaderInputCaption?: DynamicValue<string>;
 }
 
-export interface DatagridNumberFilterPreviewProps {
+export interface DatagridNumberFilterPlusPreviewProps {
     className: string;
     style: string;
     styleObject?: CSSProperties;

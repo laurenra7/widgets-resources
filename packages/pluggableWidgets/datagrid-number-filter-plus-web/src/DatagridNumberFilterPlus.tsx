@@ -1,8 +1,8 @@
 import { createElement, ReactElement, useRef } from "react";
-import { DatagridNumberFilterContainerProps, DefaultFilterEnum } from "../typings/DatagridNumberFilterPlusProps";
+import { DatagridNumberFilterPlusContainerProps, DefaultFilterEnum } from "../typings/DatagridNumberFilterPlusProps";
 
-import { FilterComponent } from "./components/FilterComponent";
-import { Alert, FilterType, getFilterDispatcher, generateUUID } from "@mendix/piw-utils-internal/components/web";
+import { FilterPlusComponent } from "./components/FilterComponent";
+import { Alert, NoLimitFilterType, getNoLimitFilterDispatcher, generateUUID } from "@mendix/piw-utils-internal/components/web";
 import { Big } from "big.js";
 
 import {
@@ -20,10 +20,10 @@ import { FilterCondition } from "mendix/filters";
 import { ListAttributeValue } from "mendix";
 import { translateFilters } from "./utils/filters";
 
-export default function DatagridNumberFilter(props: DatagridNumberFilterContainerProps): ReactElement {
+export default function DatagridNumberFilterPlus(props: DatagridNumberFilterPlusContainerProps): ReactElement {
     const id = useRef(`NumberFilter${generateUUID()}`);
 
-    const FilterContext = getFilterDispatcher();
+    const FilterContext = getNoLimitFilterDispatcher();
     const alertMessage = (
         <Alert bootstrapStyle="danger">
             The Number filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget.
@@ -38,11 +38,11 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
 
     return FilterContext?.Consumer ? (
         <FilterContext.Consumer>
-            {filterContextValue => {
+            {noLimitfilterContextValue => {
                 if (
-                    !filterContextValue ||
-                    !filterContextValue.filterDispatcher ||
-                    (!filterContextValue.singleAttribute && !filterContextValue.multipleAttributes)
+                    !noLimitfilterContextValue ||
+                    !noLimitfilterContextValue.filterDispatcher ||
+                    (!noLimitfilterContextValue.singleAttribute && !noLimitfilterContextValue.multipleAttributes)
                 ) {
                     return alertMessage;
                 }
@@ -52,7 +52,7 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                     multipleAttributes,
                     singleInitialFilter,
                     multipleInitialFilters
-                } = filterContextValue;
+                } = noLimitfilterContextValue;
 
                 const attributes = [
                     ...(singleAttribute ? [singleAttribute] : []),
@@ -76,7 +76,7 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                 }
 
                 return (
-                    <FilterComponent
+                    <FilterPlusComponent
                         adjustable={props.adjustable}
                         className={props.class}
                         defaultFilter={defaultFilter?.type ?? props.defaultFilter}
@@ -101,7 +101,8 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                             filterDispatcher({
                                 getFilterCondition: () =>
                                     conditions && conditions.length > 1 ? or(...conditions) : conditions?.[0],
-                                filterType: FilterType.NUMBER
+                                    filterType: NoLimitFilterType.NUMBER,
+                                    key: props.name
                             });
                         }}
                         value={defaultFilter?.value ?? props.defaultValue?.value}

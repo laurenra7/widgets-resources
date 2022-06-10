@@ -21,7 +21,7 @@ interface FilterComponentProps {
     value?: Big;
 }
 
-export function FilterComponent(props: FilterComponentProps): ReactElement {
+export function FilterPlusComponent(props: FilterComponentProps): ReactElement {
     const [type, setType] = useState<DefaultFilterEnum>(props.defaultFilter);
     const [value, setValue] = useState<Big | undefined>(undefined);
     const [valueInput, setValueInput] = useState<string | undefined>(undefined);
