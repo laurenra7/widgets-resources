@@ -1,11 +1,11 @@
 import { createElement, ReactElement } from "react";
-import { DatagridNumberFilterPreviewProps } from "../typings/DatagridNumberFilterPlusProps";
-import { FilterComponent } from "./components/FilterComponent";
+import { DatagridNumberFilterPlusPreviewProps } from "../typings/DatagridNumberFilterPlusProps";
+import { FilterPlusComponent } from "./components/FilterPlusComponent";
 import { parseStyle } from "@mendix/piw-utils-internal";
 
-export function preview(props: DatagridNumberFilterPreviewProps): ReactElement {
+export function preview(props: DatagridNumberFilterPlusPreviewProps): ReactElement {
     return (
-        <FilterComponent
+        <FilterPlusComponent
             adjustable={props.adjustable}
             className={props.className}
             defaultFilter={props.defaultFilter}

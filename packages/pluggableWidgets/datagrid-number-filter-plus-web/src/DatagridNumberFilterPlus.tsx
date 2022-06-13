@@ -1,7 +1,7 @@
 import { createElement, ReactElement, useRef } from "react";
 import { DatagridNumberFilterPlusContainerProps, DefaultFilterEnum } from "../typings/DatagridNumberFilterPlusProps";
 
-import { FilterPlusComponent } from "./components/FilterComponent";
+import { FilterPlusComponent } from "./components/FilterPlusComponent";
 import {
     Alert,
     NoLimitFilterType,
