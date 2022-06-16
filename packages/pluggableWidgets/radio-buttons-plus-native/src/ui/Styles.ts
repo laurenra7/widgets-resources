@@ -64,5 +64,12 @@ export const defaultRadioButtonsStyle: RadioButtonsStyle = {
     validationMessage: {
         color: "#E33F4E",
         fontSize: 12
+    },
+
+    radioButtonSubtextStyle: {
+        fontSize: 10,
+        lineHeight: 12,
+        color: "#555555",
+        opacity: 1
     }
 };

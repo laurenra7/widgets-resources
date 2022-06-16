@@ -20,9 +20,11 @@ export interface ButtonsListPreviewType {
     subtextString: string;
 }
 
-export interface RadioButtonsPlusProps<Style> {
+export interface RadioButtonsPlusContainerProps {
     name: string;
-    style: Style[];
+    class: string;
+    style?: CSSProperties;
+    tabIndex?: number;
     orientation: OrientationEnum;
     enum: EditableValue<string>;
     buttonsList: ButtonsListType[];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<widget xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="com.mendix.widget.native.radiobuttons.RadioButtons" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Native" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+<widget xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="com.mendix.widget.web.radiobuttons.RadioButtonsPlus" pluginWidget="true" needsEntityContext="true" offlineCapable="true" supportedPlatform="Web" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Radio Buttons Plus</name>
     <description />
     <icon />

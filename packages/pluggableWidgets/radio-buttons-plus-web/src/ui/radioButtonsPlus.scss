@@ -1,0 +1,60 @@
+.default-radio-button {
+    .container {
+    }
+    .container-horizontal {
+        flex-direction: "row";
+        align-items: "center";
+        flex-wrap: "wrap";
+    }
+    .radio-button-item-container-style {
+        flex-direction: "row";
+        align-items: "center";
+        margin-bottom: 8px;
+    }
+    .radio-button-item-container-horizontal-style {
+        margin-bottom: 0px;
+        margin-left: 8px;
+    }
+    .radio-button-item-container-disabled-style {
+        opacity: 0.5;
+    }
+    .circular-button-style {
+        border-width: 1px;
+        justify-content: "center";
+        align-items: "center";
+        width: 16px;
+        height: 16px;
+        border-radius: 8px;
+        border-color: "#CED0D3";
+        margin-left: 4px;
+    }
+    .labelTextStyle {
+        color: "#0A1326";
+        font-size: 12px;
+        line-height: 18px;
+        margin-bottom: 8px;
+    }
+
+    .activeButtonStyle {
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background-color: "#264AE5";
+    }
+    .radioButtonItemTitleStyle {
+        color: "#0A1326";
+        font-size: 12px;
+        line-height: 18px;
+    }
+    .validationMessage {
+        color: "#E33F4E";
+        font-size: 12px;
+    }
+
+    .radioButtonSubtextStyle {
+        font-size: 10px;
+        line-height: 12px;
+        color: "#555555";
+        opacity: 1;
+    }
+}

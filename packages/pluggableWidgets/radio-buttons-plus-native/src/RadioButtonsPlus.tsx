@@ -5,10 +5,10 @@ import { mergeNativeStyles } from "@mendix/pluggable-widgets-tools";
 import { executeAction } from "@mendix/piw-utils-internal";
 
 import { RadioButton } from "./components/RadioButtonPlus";
-import { RadioButtonsProps } from "../typings/RadioButtonsPlusProps";
+import { RadioButtonsPlusProps } from "../typings/RadioButtonsPlusProps";
 import { defaultRadioButtonsStyle, RadioButtonsStyle } from "./ui/Styles";
 
-export type props = RadioButtonsProps<RadioButtonsStyle>;
+export type props = RadioButtonsPlusProps<RadioButtonsStyle>;
 
 export function RadioButtons({
     enum: { setValue, universe, value, formatter, readOnly, validation },
@@ -17,7 +17,8 @@ export function RadioButtons({
     onChange,
     name,
     label,
-    showLabel
+    showLabel,
+    buttonsList
 }: props): ReactElement {
     const styles = mergeNativeStyles(defaultRadioButtonsStyle, style);
     const onSelect = useCallback(
@@ -45,6 +46,7 @@ export function RadioButtons({
                         name={name}
                         disabled={readOnly}
                         orientation={orientation}
+                        buttonsList={buttonsList}
                     />
                 ))}
             </View>

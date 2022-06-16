@@ -1,13 +1,11 @@
-import { createElement, ReactElement } from "react";
-import { Pressable, Text, View } from "react-native";
-import { RadioButtonsStyle } from "../ui/Styles";
+import { createElement, CSSProperties, ReactElement } from "react";
 import { ButtonsListType, OrientationEnum } from "../../typings/RadioButtonsPlusProps";
 
 export interface RadioButtonProps {
     title: string;
     active: boolean;
     onSelect: (value: string) => void;
-    styles: RadioButtonsStyle;
+    styles: CSSProperties | undefined;
     name: string;
     disabled: boolean;
     buttonsList: ButtonsListType[];
@@ -18,7 +16,6 @@ export function RadioButton({
     active,
     onSelect,
     title,
-    styles,
     name,
     disabled,
     orientation,
@@ -35,31 +32,41 @@ export function RadioButton({
         needsSubtext = false;
     }
 
-    // Return different rasio buttons based on if there is a specified subtext
+    // Compile failing on this variable declaration line
+    let classname: string;
+
+    if (disabled === true) {
+        if (orientation === "horizontal") {
+            classname =
+                "radio-button-item-container-style radio-button-item-container-horizontal-style radio-button-item-container-disabled-style";
+        } else {
+            classname = "radio-button-item-container-style radio-button-item-container-disabled-style";
+        }
+    } else {
+        if (orientation === "horizontal") {
+            classname = "radio-button-item-container-style radio-button-item-container-horizontal-style";
+        } else {
+            classname = "radio-button-item-container-style";
+        }
+    }
+
+    // Return different radio buttons based on if there is a specified subtext
     return (
-        <Pressable
-            style={[
-                styles.radioButtonItemContainerStyle,
-                orientation === "horizontal" && styles.radioButtonItemContainerHorizontalStyle,
-                disabled && styles.radioButtonItemContainerDisabledStyle
-            ]}
-            onPress={() => onSelect(name)}
-            testID={`radio-button-${name}`}
-        >
-            <View style={[styles.circularButtonStyle, disabled && styles.circularBtnDisabledStyle]}>
-                {active && <View style={styles.activeButtonStyle} />}
-            </View>
+        <button className={classname} onClick={() => onSelect(name)}>
+            <label className="circular-button-style">{active && <label className="activeButtonStyle" />}</label>
             {needsSubtext ? (
                 <div>
-                    <Text style={styles.radioButtonItemTitleStyle}>{title}</Text>
-                    <Text style={styles.radioButtonItemTitleStyle}>{subtextItem?.subtextString}</Text>
+                    <label className="radioButtonItemTitleStyle">{title}</label>
+                    <label className="radioButtonItemTitleStyle">{subtextItem?.subtextString}</label>
                 </div>
             ) : (
-                <Text style={styles.radioButtonItemTitleStyle}>{title}</Text>
+                <label className="radioButtonItemTitleStyle">{title}</label>
             )}
-        </Pressable>
+        </button>
     );
-    // if (needsSubtext === true) {
+    //  Original code for future reference
+
+    //  if (needsSubtext === true) {
     //     return (
     //         <Pressable
     //             style={[
