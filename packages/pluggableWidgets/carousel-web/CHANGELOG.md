@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## [2.0.0] - 2022-3-7
+## [2.0.0] - 2022-03-07
 
 ### Added
 
@@ -15,5 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 -   We changed the widget to a pluggable widget.
+
 -   We changed the library for Carousel widget to use Swiper.
+
 -   We changed the data source selection, now you can put your preferred widget inside carousel content.

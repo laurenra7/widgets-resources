@@ -10,7 +10,7 @@ Introduce linear gradient background for native mobile.
 
 ## Custom styling
 
-The look and feel of the widget is fully customizable. Check out the <a href="https://docs.mendix.com/refguide/native-styling-refguide/#1130-background-gradient">Native Mobile Styling documentation</a> for a full overview of the available style customizations.
+The look and feel of the widget is fully customizable. Check out the <a href="https://docs.mendix.com/refguide/mobile/designing-mobile-user-interfaces/widget-styling-guide/#1131-background-gradient">Native Mobile Styling documentation</a> for a full overview of the available style customizations.
 
 ## Development and contribution
 

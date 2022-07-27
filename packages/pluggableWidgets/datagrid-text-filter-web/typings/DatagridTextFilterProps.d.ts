@@ -15,7 +15,9 @@ export type DefaultFilterEnum =
     | "equal"
     | "notEqual"
     | "smaller"
-    | "smallerEqual";
+    | "smallerEqual"
+    | "empty"
+    | "notEmpty";
 
 export interface DatagridTextFilterContainerProps {
     name: string;
