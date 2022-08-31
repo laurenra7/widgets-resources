@@ -61,7 +61,7 @@ export default function DatagridNumberFilterPlus(props: DatagridNumberFilterPlus
 
                 const attributes = [
                     ...(singleAttribute ? [singleAttribute] : []),
-                    ...(multipleAttributes ? findAttributesByType(multipleAttributes, props.name) ?? [] : [])
+                    ...(multipleAttributes ? findAttributesByName(multipleAttributes, props.name) ?? [] : [])
                 ];
 
                 if (attributes.length === 0) {
@@ -131,7 +131,14 @@ export default function DatagridNumberFilterPlus(props: DatagridNumberFilterPlus
 //         .filter(attr => attr.type.match(/AutoNumber|Decimal|Integer|Long/));
 // }
 
-function findAttributesByType(
+/**
+ * Finds the filter by the filterName (assigned to the filter widget by the
+ * developer in the widget properties under Common > Name). Returns an array
+ * of filters (usually just 1) that will be applied to the list.
+ * @param multipleAttributes
+ * @param filterName
+ */
+function findAttributesByName(
     multipleAttributes?: {
         [key: string]: {
             filter: ListAttributeValue;

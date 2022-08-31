@@ -61,7 +61,7 @@ export default function DatagridDropdownFilterPlus(props: DatagridDropdownFilter
 
                 const attributes = [
                     ...(singleAttribute ? [singleAttribute] : []),
-                    ...(multipleAttributes ? findAttributesByType(multipleAttributes, props.name) ?? [] : [])
+                    ...(multipleAttributes ? findAttributesByName(multipleAttributes, props.name) ?? [] : [])
                 ];
 
                 if (attributes.length === 0) {
@@ -86,7 +86,7 @@ export default function DatagridDropdownFilterPlus(props: DatagridDropdownFilter
 
                 const options = props.auto ? attributes?.flatMap(mapAttributeToValues) ?? [] : parsedOptions;
 
-                return (
+                const filterComponentReturned = (
                     <FilterComponentPlus
                         ariaLabel={props.ariaLabel?.value}
                         className={props.class}
@@ -116,6 +116,39 @@ export default function DatagridDropdownFilterPlus(props: DatagridDropdownFilter
                         }}
                     />
                 );
+
+                return filterComponentReturned;
+
+                // return (
+                //     <FilterComponentPlus
+                //         ariaLabel={props.ariaLabel?.value}
+                //         className={props.class}
+                //         defaultValue={defaultValues ? defaultValues : props.defaultValue?.value}
+                //         emptyOptionCaption={props.emptyOptionCaption?.value}
+                //         multiSelect={props.multiSelect}
+                //         id={id.current}
+                //         options={options}
+                //         styles={props.style}
+                //         tabIndex={props.tabIndex}
+                //         updateFilters={(values: FilterOptionPlus[]): void => {
+                //             const valuesString = values.map(v => v.value).join(",");
+                //             const attributeCurrentValue = props.valueAttribute?.value || "";
+                //             if (valuesString !== attributeCurrentValue) {
+                //                 props.valueAttribute?.setValue(valuesString);
+                //                 props.onChange?.execute();
+                //             }
+                //             const conditions = attributes
+                //                 ?.map(attribute => getFilterCondition(attribute, values))
+                //                 .filter((filter): filter is FilterCondition => filter !== undefined);
+                //             filterDispatcher({
+                //                 getFilterCondition: () =>
+                //                     conditions && conditions.length > 1 ? or(...conditions) : conditions?.[0],
+                //                 filterType: NoLimitFilterType.ENUMERATION,
+                //                 key: props.name
+                //             });
+                //         }}
+                //     />
+                // );
             }}
         </FilterContext.Consumer>
     ) : (
@@ -134,7 +167,16 @@ export default function DatagridDropdownFilterPlus(props: DatagridDropdownFilter
 //         .filter(attr => attr.type.match(/Enum|Boolean/));
 // }
 
-function findAttributesByType(
+/**
+ * Finds the attribute ("Filter attribute") that a filter widget will be used
+ * to filter on by the widget name ("Filter Widget Name"). The filterName
+ * is assigned by the developer in the widget properties under Common > Name.
+ * This replaces the Mendix-delivered findAttributesByType function that used
+ * the type of the filter widget (String, Enum/Boolean, Integer, Datetime)
+ * @param multipleAttributes
+ * @param filterName
+ */
+function findAttributesByName(
     multipleAttributes?: {
         [key: string]: { filter: ListAttributeValue; filterName: string };
     },
@@ -205,6 +247,10 @@ function checkValue(value: string, type: string): boolean | string {
     return value;
 }
 
+/**
+ *
+ * @param attribute
+ */
 function mapAttributeToValues(attribute: ListAttributeValue): FilterOptionPlus[] {
     if (!attribute.universe) {
         return [];

@@ -65,7 +65,7 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
 
                 const attributes = [
                     ...(singleAttribute ? [singleAttribute] : []),
-                    ...(multipleAttributes ? findAttributesByType(multipleAttributes, props.name) ?? [] : [])
+                    ...(multipleAttributes ? findAttributesByName(multipleAttributes, props.name) ?? [] : [])
                 ];
 
                 if (attributes.length === 0) {
@@ -135,7 +135,7 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
 //         .map(attr => attr.filter);
 // }
 
-function findAttributesByType(
+function findAttributesByName(
     multipleAttributes?: {
         [key: string]: { filter: ListAttributeValue; filterName: string };
     },
