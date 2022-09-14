@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Date Filter with single instance with multiple attributes renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="filter-container filter-custom-class"
+    data-focusindex="0"
+  >
+    <div
+      class="filter-selector"
+    >
+      <div
+        class="filter-selector-content"
+      >
+        <button
+          aria-controls="DateFilter1-filter-selectors"
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn btn-default filter-selector-button button-icon equal"
+        >
+           
+        </button>
+      </div>
+    </div>
+    <span
+      class="sr-only"
+      id="DateFilter1-label"
+    />
+    <div
+      class="react-datepicker-wrapper"
+    >
+      <div
+        class="react-datepicker__input-container"
+      >
+        <input
+          aria-labelledby="DateFilter1-label"
+          class="form-control filter-input"
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <button
+      aria-controls="datepicker_0.123456789"
+      aria-expanded="false"
+      aria-haspopup="true"
+      aria-label="Show calendar"
+      class="btn btn-default btn-calendar"
+    >
+      <span
+        class="glyphicon glyphicon-calendar"
+      />
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Date Filter with single instance with single attribute renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="filter-container filter-custom-class"
+    data-focusindex="0"
+  >
+    <div
+      class="filter-selector"
+    >
+      <div
+        class="filter-selector-content"
+      >
+        <button
+          aria-controls="DateFilter1-filter-selectors"
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="btn btn-default filter-selector-button button-icon equal"
+        >
+           
+        </button>
+      </div>
+    </div>
+    <span
+      class="sr-only"
+      id="DateFilter1-label"
+    />
+    <div
+      class="react-datepicker-wrapper"
+    >
+      <div
+        class="react-datepicker__input-container"
+      >
+        <input
+          aria-labelledby="DateFilter1-label"
+          class="form-control filter-input"
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <button
+      aria-controls="datepicker_0.123456789"
+      aria-expanded="false"
+      aria-haspopup="true"
+      aria-label="Show calendar"
+      class="btn btn-default btn-calendar"
+    >
+      <span
+        class="glyphicon glyphicon-calendar"
+      />
+    </button>
+  </div>
+</DocumentFragment>
+`;
