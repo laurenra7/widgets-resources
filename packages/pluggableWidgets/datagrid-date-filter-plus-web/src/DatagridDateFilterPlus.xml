@@ -12,21 +12,6 @@
                     <caption>Enable advanced options</caption>
                     <description />
                 </property>
-                <property key="defaultValue" type="expression" required="false">
-                    <caption>Default value</caption>
-                    <description />
-                    <returnType type="DateTime" />
-                </property>
-                <property key="defaultStartDate" type="expression" required="false">
-                    <caption>Default start date</caption>
-                    <description />
-                    <returnType type="DateTime" />
-                </property>
-                <property key="defaultEndDate" type="expression" required="false">
-                    <caption>Default end date</caption>
-                    <description />
-                    <returnType type="DateTime" />
-                </property>
                 <property key="defaultFilter" type="enumeration" defaultValue="equal">
                     <caption>Default filter</caption>
                     <description />
@@ -52,12 +37,29 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Configurations">
+                <property key="defaultValue" type="expression" required="false">
+                    <caption>Default value</caption>
+                    <description />
+                    <returnType type="DateTime" />
+                </property>
                 <property key="valueAttribute" type="attribute" required="false">
                     <caption>Saved attribute</caption>
                     <description>Attribute used to store the last value of the filter.</description>
                     <attributeTypes>
                         <attributeType name="DateTime" />
                     </attributeTypes>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="&#34;Between&#34; Date Filter Configurations">
+                <property key="defaultStartDate" type="expression" required="false">
+                    <caption>Default start date</caption>
+                    <description />
+                    <returnType type="DateTime" />
+                </property>
+                <property key="defaultEndDate" type="expression" required="false">
+                    <caption>Default end date</caption>
+                    <description />
+                    <returnType type="DateTime" />
                 </property>
                 <property key="startDateAttribute" type="attribute" required="false">
                     <caption>Saved start date attribute</caption>
