@@ -37,16 +37,6 @@ export function getProperties(
     if (!values.adjustable) {
         hidePropertyIn(defaultProperties, values, "screenReaderButtonCaption");
     }
-    if (values.defaultFilter !== "between") {
-        hidePropertiesIn(defaultProperties, values, [
-            "defaultStartDate",
-            "defaultEndDate",
-            "startDateAttribute",
-            "endDateAttribute"
-        ]);
-    } else {
-        hidePropertiesIn(defaultProperties, values, ["defaultValue", "valueAttribute"]);
-    }
     if (platform === "web") {
         if (!values.advanced) {
             hidePropertiesIn(defaultProperties, values, ["onChange", "valueAttribute"]);

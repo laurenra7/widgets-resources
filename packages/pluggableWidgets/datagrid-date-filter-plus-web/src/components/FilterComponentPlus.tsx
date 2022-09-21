@@ -34,13 +34,17 @@ export function FilterComponentPlus(props: FilterComponentPlusProps): ReactEleme
     const pickerRef = useRef<DatePickerComponent | null>(null);
 
     useEffect(() => {
-        if (props.defaultValue) {
+        if (props.defaultValue && value?.getTime() != props.defaultValue.getTime()) {
             setValue(props.defaultValue);
         }
     }, [props.defaultValue]);
 
     useEffect(() => {
-        if (props.defaultStartDate || props.defaultEndDate) {
+        if (
+            (props.defaultStartDate || props.defaultEndDate) &&
+            (rangeValues[0]?.getTime() != props.defaultStartDate?.getTime() ||
+                rangeValues[1]?.getTime() != props.defaultEndDate?.getTime())
+        ) {
             setRangeValues([props.defaultStartDate, props.defaultEndDate]);
         }
     }, [props.defaultStartDate, props.defaultEndDate]);
