@@ -50,7 +50,7 @@
                     </attributeTypes>
                 </property>
             </propertyGroup>
-            <propertyGroup caption="Between Filter Configurations">
+            <propertyGroup caption="&#34;Between&#34; Date Filter Configurations">
                 <property key="defaultStartDate" type="expression" required="false">
                     <caption>Default start date</caption>
                     <description />
