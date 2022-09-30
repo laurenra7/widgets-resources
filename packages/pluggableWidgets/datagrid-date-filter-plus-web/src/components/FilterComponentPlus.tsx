@@ -12,6 +12,7 @@ interface FilterComponentPlusProps {
     calendarStartDay?: number;
     className?: string;
     defaultFilter: DefaultFilterEnum;
+    savedFilter: string;
     defaultValue?: Date;
     defaultStartDate?: Date;
     defaultEndDate?: Date;
@@ -28,7 +29,9 @@ interface FilterComponentPlusProps {
 }
 
 export function FilterComponentPlus(props: FilterComponentPlusProps): ReactElement {
-    const [type, setType] = useState<DefaultFilterEnum>(props.defaultFilter);
+    const [type, setType] = useState<DefaultFilterEnum>(
+        props.defaultFilter == "useSavedFilter" ? (props.savedFilter as DefaultFilterEnum) : props.defaultFilter
+    );
     const [value, setValue] = useState<Date | undefined>(undefined);
     const [rangeValues, setRangeValues] = useState<RangeDateValue>([props.defaultStartDate, props.defaultEndDate]);
     const pickerRef = useRef<DatePickerComponent | null>(null);
@@ -68,7 +71,7 @@ export function FilterComponentPlus(props: FilterComponentPlusProps): ReactEleme
             {props.adjustable && (
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption}
-                    defaultFilter={props.defaultFilter}
+                    defaultFilter={props.defaultFilter == "useSavedFilter" ? props.savedFilter : props.defaultFilter}
                     id={props.id}
                     onChange={useCallback(
                         type => {

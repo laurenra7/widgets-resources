@@ -15,7 +15,8 @@ export type DefaultFilterEnum =
     | "smaller"
     | "smallerEqual"
     | "empty"
-    | "notEmpty";
+    | "notEmpty"
+    | "useSavedFilter";
 
 export interface DatagridDateFilterPlusContainerProps {
     name: string;
@@ -24,6 +25,8 @@ export interface DatagridDateFilterPlusContainerProps {
     tabIndex?: number;
     advanced: boolean;
     defaultFilter: DefaultFilterEnum;
+    savedFilter?: DynamicValue<string>;
+    filterAttribute?: EditableValue<string>;
     placeholder?: DynamicValue<string>;
     adjustable: boolean;
     defaultValue?: DynamicValue<Date>;
@@ -45,6 +48,8 @@ export interface DatagridDateFilterPlusPreviewProps {
     readOnly: boolean;
     advanced: boolean;
     defaultFilter: DefaultFilterEnum;
+    savedFilter: string;
+    filterAttribute: string;
     placeholder: string;
     adjustable: boolean;
     defaultValue: string;
