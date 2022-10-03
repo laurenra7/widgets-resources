@@ -15,7 +15,8 @@ export type DefaultFilterEnum =
     | "equal"
     | "notEqual"
     | "smaller"
-    | "smallerEqual";
+    | "smallerEqual"
+    | "useSavedFilter";
 
 export interface DatagridTextFilterPlusContainerProps {
     name: string;
@@ -25,6 +26,8 @@ export interface DatagridTextFilterPlusContainerProps {
     advanced: boolean;
     defaultValue?: DynamicValue<string>;
     defaultFilter: DefaultFilterEnum;
+    savedFilter?: DynamicValue<string>;
+    filterAttribute?: EditableValue<string>;
     placeholder?: DynamicValue<string>;
     adjustable: boolean;
     delay: number;
@@ -42,6 +45,8 @@ export interface DatagridTextFilterPlusPreviewProps {
     advanced: boolean;
     defaultValue: string;
     defaultFilter: DefaultFilterEnum;
+    savedFilter: string;
+    filterAttribute: string;
     placeholder: string;
     adjustable: boolean;
     delay: number | null;

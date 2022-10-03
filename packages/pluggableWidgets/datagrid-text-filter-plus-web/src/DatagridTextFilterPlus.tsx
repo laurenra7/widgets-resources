@@ -89,6 +89,7 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
                         adjustable={props.adjustable}
                         className={props.class}
                         defaultFilter={defaultFilter?.type ?? props.defaultFilter}
+                        savedFilter={props.savedFilter?.value ? props.savedFilter?.value : "contains"}
                         delay={props.delay}
                         id={id.current}
                         placeholder={props.placeholder?.value}
@@ -97,9 +98,26 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
                         styles={props.style}
                         tabIndex={props.tabIndex}
                         updateFilters={(value: string, type: DefaultFilterEnum): void => {
+                            let shouldExecuteOnChange = false;
                             const attributeCurrentValue = props.valueAttribute?.value || "";
                             if (value !== attributeCurrentValue) {
                                 props.valueAttribute?.setValue(value);
+                                shouldExecuteOnChange = true;
+                            }
+                            switch (type) {
+                                case "contains":
+                                case "endsWith":
+                                case "equal":
+                                case "greater":
+                                case "greaterEqual":
+                                case "notEqual":
+                                case "smaller":
+                                case "smallerEqual":
+                                case "startsWith":
+                                    props.filterAttribute?.setValue(type);
+                                    shouldExecuteOnChange = true;
+                            }
+                            if (shouldExecuteOnChange) {
                                 props.onChange?.execute();
                             }
                             const conditions = attributes
@@ -177,7 +195,8 @@ function getFilterCondition(
         equal: equals,
         notEqual,
         smaller: lessThan,
-        smallerEqual: lessThanOrEqual
+        smallerEqual: lessThanOrEqual,
+        useSavedFilter: contains
     };
 
     return filters[type](attribute(listAttribute.id), literal(value));
