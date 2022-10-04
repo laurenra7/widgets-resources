@@ -1,6 +1,6 @@
 import { render } from "enzyme";
 import { createElement } from "react";
-import { FilterComponent } from "../FilterComponentPlus";
+import { FilterPlusComponent } from "../FilterPlusComponent";
 import ReactDOM from "react-dom";
 
 describe("Filter component", () => {
@@ -14,20 +14,20 @@ describe("Filter component", () => {
     });
 
     it("renders correctly", () => {
-        const component = render(<FilterComponent adjustable defaultFilter="equal" />);
+        const component = render(<FilterPlusComponent adjustable defaultFilter="equal" />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly when not adjustable by user", () => {
-        const component = render(<FilterComponent adjustable={false} defaultFilter="equal" />);
+        const component = render(<FilterPlusComponent adjustable={false} defaultFilter="equal" />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly with aria labels", () => {
         const component = render(
-            <FilterComponent
+            <FilterPlusComponent
                 adjustable
                 screenReaderButtonCaption="my label"
                 screenReaderInputCaption="my label"

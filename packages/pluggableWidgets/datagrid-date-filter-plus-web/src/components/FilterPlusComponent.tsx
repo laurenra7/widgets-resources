@@ -7,12 +7,12 @@ import DatePickerComponent from "react-datepicker";
 import { DatePickerPlus, RangeDateValue } from "./DatePickerPlus";
 import classNames from "classnames";
 
-interface FilterComponentPlusProps {
+interface FilterPlusComponentProps {
     adjustable: boolean;
     calendarStartDay?: number;
     className?: string;
     defaultFilter: DefaultFilterEnum;
-    savedFilter: string;
+    savedFilter?: string;
     defaultValue?: Date;
     defaultStartDate?: Date;
     defaultEndDate?: Date;
@@ -28,7 +28,7 @@ interface FilterComponentPlusProps {
     updateFilters?: (value: Date | undefined, rangeValues: RangeDateValue, type: DefaultFilterEnum) => void;
 }
 
-export function FilterComponentPlus(props: FilterComponentPlusProps): ReactElement {
+export function FilterPlusComponent(props: FilterPlusComponentProps): ReactElement {
     const [type, setType] = useState<DefaultFilterEnum>(
         props.defaultFilter == "useSavedFilter" ? (props.savedFilter as DefaultFilterEnum) : props.defaultFilter
     );

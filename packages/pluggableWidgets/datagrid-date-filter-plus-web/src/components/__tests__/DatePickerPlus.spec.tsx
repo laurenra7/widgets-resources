@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { render as renderEnzyme } from "enzyme";
 import { render, fireEvent } from "@testing-library/react";
-import { DatePicker } from "../DatePickerPlus";
+import { DatePickerPlus } from "../DatePickerPlus";
 import ReactDOM from "react-dom";
 import { doubleMonthOrDayWhenSingle } from "../../utils/utils";
 
@@ -17,7 +17,7 @@ describe("Date picker component", () => {
 
     it("renders correctly", () => {
         const component = renderEnzyme(
-            <DatePicker adjustable setValue={jest.fn()} dateFormat="dd/MM/yyyy" locale="nl-NL" />
+            <DatePickerPlus adjustable setValue={jest.fn()} dateFormat="dd/MM/yyyy" locale="nl-NL" />
         );
 
         expect(component).toMatchSnapshot();
@@ -25,7 +25,7 @@ describe("Date picker component", () => {
 
     it("renders correctly when is not adjustable", () => {
         const component = renderEnzyme(
-            <DatePicker adjustable={false} setValue={jest.fn()} dateFormat="dd/MM/yyyy" locale="nl-NL" />
+            <DatePickerPlus adjustable={false} setValue={jest.fn()} dateFormat="dd/MM/yyyy" locale="nl-NL" />
         );
 
         expect(component).toMatchSnapshot();
@@ -33,7 +33,7 @@ describe("Date picker component", () => {
 
     it("renders correctly with different locale and date format", () => {
         const component = renderEnzyme(
-            <DatePicker adjustable={false} setValue={jest.fn()} dateFormat="yyyy-MM-dd" locale="pt-BR" />
+            <DatePickerPlus adjustable={false} setValue={jest.fn()} dateFormat="yyyy-MM-dd" locale="pt-BR" />
         );
 
         expect(component).toMatchSnapshot();
@@ -41,7 +41,7 @@ describe("Date picker component", () => {
 
     it("renders correctly with a11y properties", () => {
         const component = renderEnzyme(
-            <DatePicker
+            <DatePickerPlus
                 adjustable
                 setValue={jest.fn()}
                 dateFormat="yyyy-MM-dd"
@@ -57,7 +57,7 @@ describe("Date picker component", () => {
     it("calls for setValue when value changes", async () => {
         const setValue = jest.fn();
         const component = render(
-            <DatePicker
+            <DatePickerPlus
                 adjustable
                 setValue={setValue}
                 dateFormat="dd/MM/yyyy"
@@ -74,7 +74,7 @@ describe("Date picker component", () => {
     it("calls for setRangeValues when value changes", async () => {
         const setRangeValues = jest.fn();
         const component = render(
-            <DatePicker
+            <DatePickerPlus
                 adjustable
                 setValue={jest.fn()}
                 setRangeValues={setRangeValues}

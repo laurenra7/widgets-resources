@@ -1,7 +1,7 @@
 import { createElement, ReactElement, useRef } from "react";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { FilterComponentPlus } from "./components/FilterComponentPlus";
+import { FilterPlusComponent } from "./components/FilterPlusComponent";
 import { DatagridDateFilterPlusContainerProps, DefaultFilterEnum } from "../typings/DatagridDateFilterPlusProps";
 import { registerLocale } from "react-datepicker";
 import * as locales from "date-fns/locale";
@@ -103,7 +103,7 @@ export default function DatagridDateFilter(props: DatagridDateFilterPlusContaine
                 }
 
                 const filterComponentReturned = (
-                    <FilterComponentPlus
+                    <FilterPlusComponent
                         adjustable={props.adjustable}
                         className={props.class}
                         defaultFilter={defaultFilter?.type ?? props.defaultFilter}
