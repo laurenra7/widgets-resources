@@ -85,6 +85,7 @@ export default function DatagridNumberFilterPlus(props: DatagridNumberFilterPlus
                         adjustable={props.adjustable}
                         className={props.class}
                         defaultFilter={defaultFilter?.type ?? props.defaultFilter}
+                        savedFilter={props.savedFilter?.value ? props.savedFilter?.value : "greater"}
                         delay={props.delay}
                         id={id.current}
                         placeholder={props.placeholder?.value}
@@ -93,11 +94,25 @@ export default function DatagridNumberFilterPlus(props: DatagridNumberFilterPlus
                         styles={props.style}
                         tabIndex={props.tabIndex}
                         updateFilters={(value: Big | undefined, type: DefaultFilterEnum): void => {
+                            let shouldExecuteOnChange = false;
                             if (
                                 (value && !props.valueAttribute?.value?.eq(value)) ||
                                 value !== props.valueAttribute?.value
                             ) {
                                 props.valueAttribute?.setValue(value);
+                                shouldExecuteOnChange = true;
+                            }
+                            switch (type) {
+                                case "smallerEqual":
+                                case "smaller":
+                                case "notEqual":
+                                case "greaterEqual":
+                                case "greater":
+                                case "equal":
+                                    props.filterAttribute?.setValue(type);
+                                    shouldExecuteOnChange = true;
+                            }
+                            if (shouldExecuteOnChange) {
                                 props.onChange?.execute();
                             }
                             const conditions = attributes
@@ -177,7 +192,8 @@ function getFilterCondition(
         equal: equals,
         notEqual,
         smaller: lessThan,
-        smallerEqual: lessThanOrEqual
+        smallerEqual: lessThanOrEqual,
+        useSavedFilter: greaterThan
     };
 
     return filters[type](attribute(listAttribute.id), literal(value));
