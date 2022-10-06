@@ -31,7 +31,7 @@ export function FilterPlusComponent(props: FilterComponentProps): ReactElement {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
-        if (props.value) {
+        if (props.value && !value?.eq(props.value)) {
             setValueInput(props.value.toString());
             setValue(props.value);
         }
