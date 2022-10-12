@@ -7,7 +7,14 @@ import { CSSProperties } from "react";
 import { ActionValue, DynamicValue, EditableValue } from "mendix";
 import { Big } from "big.js";
 
-export type DefaultFilterEnum = "greater" | "greaterEqual" | "equal" | "notEqual" | "smaller" | "smallerEqual";
+export type DefaultFilterEnum =
+    | "greater"
+    | "greaterEqual"
+    | "equal"
+    | "notEqual"
+    | "smaller"
+    | "smallerEqual"
+    | "useSavedFilter";
 
 export interface DatagridNumberFilterPlusContainerProps {
     name: string;
@@ -17,6 +24,8 @@ export interface DatagridNumberFilterPlusContainerProps {
     advanced: boolean;
     defaultValue?: DynamicValue<Big>;
     defaultFilter: DefaultFilterEnum;
+    savedFilter?: DynamicValue<string>;
+    filterAttribute?: EditableValue<string>;
     placeholder?: DynamicValue<string>;
     adjustable: boolean;
     delay: number;
@@ -34,6 +43,8 @@ export interface DatagridNumberFilterPlusPreviewProps {
     advanced: boolean;
     defaultValue: string;
     defaultFilter: DefaultFilterEnum;
+    savedFilter: string;
+    filterAttribute: string;
     placeholder: string;
     adjustable: boolean;
     delay: number | null;

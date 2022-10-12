@@ -29,6 +29,9 @@ export function getProperties(
     if (!values.adjustable) {
         hidePropertyIn(defaultProperties, values, "screenReaderButtonCaption");
     }
+    if (values.defaultFilter != "useSavedFilter") {
+        hidePropertiesIn(defaultProperties, values, ["savedFilter", "filterAttribute"]);
+    }
     if (platform === "web") {
         if (!values.advanced) {
             hidePropertiesIn(defaultProperties, values, ["onChange", "valueAttribute"]);
@@ -116,5 +119,7 @@ function getSvgContent(type: DefaultFilterEnum, isDarkMode: boolean): string {
             return isDarkMode ? smallerThanIconDark : smallerThanIcon;
         case "smallerEqual":
             return isDarkMode ? smallerThanEqualIconDark : smallerThanEqualIcon;
+        case "useSavedFilter":
+            return isDarkMode ? greaterThanIconDark : greaterThanIcon;
     }
 }

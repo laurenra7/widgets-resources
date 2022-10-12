@@ -1,7 +1,7 @@
 import { createElement, ReactElement, useRef } from "react";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { FilterComponentPlus } from "./components/FilterComponentPlus";
+import { FilterPlusComponent } from "./components/FilterPlusComponent";
 import { DatagridDateFilterPlusContainerProps, DefaultFilterEnum } from "../typings/DatagridDateFilterPlusProps";
 import { registerLocale } from "react-datepicker";
 import * as locales from "date-fns/locale";
@@ -103,10 +103,11 @@ export default function DatagridDateFilter(props: DatagridDateFilterPlusContaine
                 }
 
                 const filterComponentReturned = (
-                    <FilterComponentPlus
+                    <FilterPlusComponent
                         adjustable={props.adjustable}
                         className={props.class}
                         defaultFilter={defaultFilter?.type ?? props.defaultFilter}
+                        savedFilter={props.savedFilter?.value ? props.savedFilter?.value : "greater"}
                         defaultEndDate={defaultFilter?.endDate ?? props.defaultEndDate?.value}
                         defaultStartDate={defaultFilter?.startDate ?? props.defaultStartDate?.value}
                         defaultValue={defaultFilter?.value ?? props.defaultValue?.value}
@@ -125,9 +126,9 @@ export default function DatagridDateFilter(props: DatagridDateFilterPlusContaine
                             rangeValues: RangeDateValue,
                             type: DefaultFilterEnum
                         ): void => {
+                            let shouldExecuteOnChange = false;
                             if (type === "between") {
                                 const [startDate, endDate] = rangeValues;
-                                let shouldExecuteOnChange = false;
                                 if (
                                     (startDate &&
                                         props.startDateAttribute?.value &&
@@ -146,14 +147,33 @@ export default function DatagridDateFilter(props: DatagridDateFilterPlusContaine
                                     props.endDateAttribute?.setValue(endDate);
                                     shouldExecuteOnChange = true;
                                 }
-                                if (shouldExecuteOnChange) {
-                                    props.onChange?.execute();
-                                }
                             } else if (
                                 (value && props.valueAttribute?.value && !isEqual(props.valueAttribute.value, value)) ||
                                 value !== props.valueAttribute?.value
                             ) {
                                 props.valueAttribute?.setValue(value);
+                                shouldExecuteOnChange = true;
+                            }
+
+                            let filterAttribute = props.filterAttribute?.value || "";
+                            if (props.defaultFilter == "useSavedFilter" && type && type !== filterAttribute) {
+                                switch (type) {
+                                    case "between":
+                                    case "greater":
+                                    case "greaterEqual":
+                                    case "equal":
+                                    case "notEqual":
+                                    case "smaller":
+                                    case "smallerEqual":
+                                    case "empty":
+                                    case "notEmpty":
+                                        props.filterAttribute?.setValue(type);
+                                        shouldExecuteOnChange = true;
+                                        break;
+                                }
+                            }
+
+                            if (shouldExecuteOnChange) {
                                 props.onChange?.execute();
                             }
 

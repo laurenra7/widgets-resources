@@ -1,14 +1,15 @@
 import { createElement, ReactElement } from "react";
-import { FilterComponentPlus } from "./components/FilterComponentPlus";
+import { FilterPlusComponent } from "./components/FilterPlusComponent";
 import { DatagridDateFilterPlusPreviewProps } from "../typings/DatagridDateFilterPlusProps";
 import { parseStyle } from "@mendix/piw-utils-internal";
 
 export function preview(props: DatagridDateFilterPlusPreviewProps): ReactElement {
     return (
-        <FilterComponentPlus
+        <FilterPlusComponent
             adjustable={props.adjustable}
             className={props.className}
             defaultFilter={props.defaultFilter}
+            savedFilter={props.savedFilter}
             placeholder={props.placeholder}
             screenReaderButtonCaption={props.screenReaderButtonCaption}
             screenReaderCalendarCaption={props.screenReaderCalendarCaption}

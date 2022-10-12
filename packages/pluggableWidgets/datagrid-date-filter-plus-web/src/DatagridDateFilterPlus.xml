@@ -25,7 +25,20 @@
                         <enumerationValue key="smallerEqual">Smaller than or equal</enumerationValue>
                         <enumerationValue key="empty">Empty</enumerationValue>
                         <enumerationValue key="notEmpty">Not empty</enumerationValue>
+                        <enumerationValue key="useSavedFilter">Use saved filter</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="savedFilter" type="expression" required="false">
+                    <caption>Saved filter</caption>
+                    <description />
+                    <returnType type="String" />
+                </property>
+                <property key="filterAttribute" type="attribute" required="false">
+                    <caption>Filter attribute</caption>
+                    <description>Attribute used to store the last selected filter.</description>
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
                 </property>
                 <property key="placeholder" type="textTemplate" required="false">
                     <caption>Placeholder</caption>

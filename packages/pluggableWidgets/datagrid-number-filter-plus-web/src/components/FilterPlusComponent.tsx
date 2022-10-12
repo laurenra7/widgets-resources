@@ -10,6 +10,7 @@ interface FilterComponentProps {
     adjustable: boolean;
     className?: string;
     defaultFilter: DefaultFilterEnum;
+    savedFilter: string;
     delay: number;
     id?: string;
     placeholder?: string;
@@ -22,13 +23,15 @@ interface FilterComponentProps {
 }
 
 export function FilterPlusComponent(props: FilterComponentProps): ReactElement {
-    const [type, setType] = useState<DefaultFilterEnum>(props.defaultFilter);
+    const [type, setType] = useState<DefaultFilterEnum>(
+        props.defaultFilter == "useSavedFilter" ? (props.savedFilter as DefaultFilterEnum) : props.defaultFilter
+    );
     const [value, setValue] = useState<Big | undefined>(undefined);
     const [valueInput, setValueInput] = useState<string | undefined>(undefined);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
-        if (props.value) {
+        if (props.value && !value?.eq(props.value)) {
             setValueInput(props.value.toString());
             setValue(props.value);
         }
@@ -59,7 +62,7 @@ export function FilterPlusComponent(props: FilterComponentProps): ReactElement {
                 <FilterSelector
                     ariaLabel={props.screenReaderButtonCaption}
                     id={props.id}
-                    defaultFilter={props.defaultFilter}
+                    defaultFilter={props.defaultFilter == "useSavedFilter" ? props.savedFilter : props.defaultFilter}
                     onChange={useCallback(
                         type => {
                             setType(prev => {
