@@ -55,12 +55,12 @@ ChangelogHeadLine3
 
 // Specific helpers
 SectionType
-  = "Added" / "Changed" / "Fixed" / "Removed" / "Breaking changes" / "Documentation" / "Security" { return text() }
+  = "Added" / "Changed" / "Deprecated" / "Removed" / "Fixed" / "Security" / "Breaking changes" / "Documentation" { return text() }
 
 
 // Generic helpers
 SemVer
-  = major:Number "." minor:Number "." patch:Number _ { return new options.Version.fromParts(major, minor, patch) }
+  = major:Number "." minor:Number "." patch:Number _ { return options.Version.fromParts(major, minor, patch) }
 Date
   = year:Number "-" month:Number "-" day:Number { return new Date(year, month - 1, day) }
 OneLineSentence
