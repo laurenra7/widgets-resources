@@ -6,12 +6,9 @@ import {
     greaterThanEqualIconDark,
     greaterThanIcon,
     greaterThanIconDark,
-    hidePropertiesIn,
-    hidePropertyIn,
     ImageProps,
     notEqualIcon,
     notEqualIconDark,
-    Properties,
     smallerThanEqualIcon,
     smallerThanEqualIconDark,
     smallerThanIcon,
@@ -19,6 +16,8 @@ import {
     StructurePreviewProps,
     TextProps
 } from "@mendix/piw-utils-internal";
+import { hidePropertiesIn, hidePropertyIn, Properties } from "@mendix/pluggable-widgets-tools";
+
 import { DatagridNumberFilterPlusPreviewProps, DefaultFilterEnum } from "../typings/DatagridNumberFilterPlusProps";
 
 export function getProperties(

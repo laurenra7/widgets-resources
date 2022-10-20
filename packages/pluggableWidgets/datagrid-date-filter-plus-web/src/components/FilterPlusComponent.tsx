@@ -12,7 +12,7 @@ interface FilterPlusComponentProps {
     calendarStartDay?: number;
     className?: string;
     defaultFilter: DefaultFilterEnum;
-    savedFilter?: string;
+    savedFilter: string;
     defaultValue?: Date;
     defaultStartDate?: Date;
     defaultEndDate?: Date;
