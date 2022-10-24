@@ -16,6 +16,8 @@ export type DefaultFilterEnum =
     | "notEqual"
     | "smaller"
     | "smallerEqual"
+    | "empty"
+    | "notEmpty"
     | "useSavedFilter";
 
 export interface DatagridTextFilterPlusContainerProps {

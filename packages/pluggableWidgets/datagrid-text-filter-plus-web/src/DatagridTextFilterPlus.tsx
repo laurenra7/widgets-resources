@@ -28,8 +28,6 @@ import { ListAttributeValue } from "mendix";
 import { translateFilters } from "./utils/filters";
 
 export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusContainerProps): ReactElement {
-    // const UUID = generateUUID();
-    // const id = useRef(`TextFilter${UUID}`);
     const id = useRef(`TextFilter${generateUUID()}`);
 
     const FilterContext = getNoLimitFilterDispatcher();
@@ -140,19 +138,6 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
     );
 }
 
-// function findAttributesByType(multipleAttributes?: {
-//     [key: string]: {filter:ListAttributeValue, filterName:string };
-// }, filterName?: string): ListAttributeValue[] | undefined {
-//     if (!multipleAttributes) {
-//         return undefined;
-//     }
-//     return Object.keys(multipleAttributes)
-//         .map(key => multipleAttributes[key])
-//         // .filter(attr => attr.type.match(/HashString|String/));
-//         .filter(attr => attr.filterName === filterName)
-//         .map(attr => attr.filter);
-// }
-
 function findAttributesByName(
     multipleAttributes?: {
         [key: string]: { filter: ListAttributeValue; filterName: string };
@@ -162,13 +147,10 @@ function findAttributesByName(
     if (!multipleAttributes) {
         return undefined;
     }
-    return (
-        Object.keys(multipleAttributes)
-            .map(key => multipleAttributes[key])
-            // .filter(attr => attr.type.match(/HashString|String/));
-            .filter(attr => attr.filterName === filterName)
-            .map(attr => attr.filter)
-    );
+    return Object.keys(multipleAttributes)
+        .map(key => multipleAttributes[key])
+        .filter(attr => attr.filterName === filterName)
+        .map(attr => attr.filter);
 }
 
 function getAttributeTypeErrorMessage(type?: string): string | null {
@@ -182,7 +164,7 @@ function getFilterCondition(
     value: string,
     type: DefaultFilterEnum
 ): FilterCondition | undefined {
-    if (!listAttribute || !listAttribute.filterable || !value) {
+    if (!listAttribute || !listAttribute.filterable || (type !== "empty" && type !== "notEmpty" && !value)) {
         return undefined;
     }
 
@@ -196,8 +178,13 @@ function getFilterCondition(
         notEqual,
         smaller: lessThan,
         smallerEqual: lessThanOrEqual,
+        empty: equals,
+        notEmpty: notEqual,
         useSavedFilter: contains
     };
 
-    return filters[type](attribute(listAttribute.id), literal(value));
+    return filters[type](
+        attribute(listAttribute.id),
+        literal(type === "empty" || type === "notEmpty" ? undefined : value)
+    );
 }

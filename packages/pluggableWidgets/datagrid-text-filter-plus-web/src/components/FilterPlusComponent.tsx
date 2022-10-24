@@ -31,8 +31,8 @@ export function FilterPlusComponent(props: FilterPlusComponentProps): ReactEleme
 
     useEffect(() => {
         if (props.value) {
-            setValueInput(props.value);
-            setValue(props.value);
+            setValueInput(props.value ?? "");
+            setValue(props.value ?? "");
         }
     }, [props.value]);
 
@@ -84,7 +84,9 @@ export function FilterPlusComponent(props: FilterPlusComponentProps): ReactEleme
                             { value: "equal", label: "Equal" },
                             { value: "notEqual", label: "Not equal" },
                             { value: "smaller", label: "Smaller than" },
-                            { value: "smallerEqual", label: "Smaller than or equal" }
+                            { value: "smallerEqual", label: "Smaller than or equal" },
+                            { value: "empty", label: "Empty" },
+                            { value: "notEmpty", label: "Not empty" }
                         ] as Array<{ value: DefaultFilterEnum; label: string }>
                     }
                 />
@@ -92,6 +94,7 @@ export function FilterPlusComponent(props: FilterPlusComponentProps): ReactEleme
             <input
                 aria-label={props.screenReaderInputCaption}
                 className={classNames("form-control", { "filter-input": props.adjustable })}
+                disabled={type === "empty" || type === "notEmpty"}
                 onChange={e => {
                     setValueInput(e.target.value);
                     onChange(e.target.value);
