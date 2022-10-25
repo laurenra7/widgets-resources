@@ -135,17 +135,6 @@ export default function DatagridNumberFilterPlus(props: DatagridNumberFilterPlus
     );
 }
 
-// function findAttributesByType(multipleAttributes?: {
-//     [key: string]: {filter:ListAttributeValue, filterName:string};
-// }): ListAttributeValue[] | undefined {
-//     if (!multipleAttributes) {
-//         return undefined;
-//     }
-//     return Object.keys(multipleAttributes)
-//         .map(key => multipleAttributes[key])
-//         .filter(attr => attr.type.match(/AutoNumber|Decimal|Integer|Long/));
-// }
-
 /**
  * Finds the filter by the filterName (assigned to the filter widget by the
  * developer in the widget properties under Common > Name). Returns an array
@@ -182,7 +171,7 @@ function getFilterCondition(
     value: Big | undefined,
     type: DefaultFilterEnum
 ): FilterCondition | undefined {
-    if (!listAttribute || !listAttribute.filterable || !value) {
+    if (!listAttribute || !listAttribute.filterable || (type !== "empty" && type !== "notEmpty" && !value)) {
         return undefined;
     }
 
@@ -193,8 +182,13 @@ function getFilterCondition(
         notEqual,
         smaller: lessThan,
         smallerEqual: lessThanOrEqual,
+        empty: equals,
+        notEmpty: notEqual,
         useSavedFilter: greaterThan
     };
 
-    return filters[type](attribute(listAttribute.id), literal(value));
+    return filters[type](
+        attribute(listAttribute.id),
+        literal(type === "empty" || type === "notEmpty" ? undefined : value)
+    );
 }

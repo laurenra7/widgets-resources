@@ -1,5 +1,7 @@
 import {
     ContainerProps,
+    emptyIcon,
+    emptyIconDark,
     equalsIcon,
     equalsIconDark,
     greaterThanEqualIcon,
@@ -7,6 +9,8 @@ import {
     greaterThanIcon,
     greaterThanIconDark,
     ImageProps,
+    notEmptyIcon,
+    notEmptyIconDark,
     notEqualIcon,
     notEqualIconDark,
     smallerThanEqualIcon,
@@ -118,6 +122,10 @@ function getSvgContent(type: DefaultFilterEnum, isDarkMode: boolean): string {
             return isDarkMode ? smallerThanIconDark : smallerThanIcon;
         case "smallerEqual":
             return isDarkMode ? smallerThanEqualIconDark : smallerThanEqualIcon;
+        case "empty":
+            return isDarkMode ? emptyIconDark : emptyIcon;
+        case "notEmpty":
+            return isDarkMode ? notEmptyIconDark : notEmptyIcon;
         case "useSavedFilter":
             return isDarkMode ? greaterThanIconDark : greaterThanIcon;
     }
