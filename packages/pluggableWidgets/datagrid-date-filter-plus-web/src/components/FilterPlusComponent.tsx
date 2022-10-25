@@ -32,12 +32,12 @@ export function FilterPlusComponent(props: FilterPlusComponentProps): ReactEleme
     const [type, setType] = useState<DefaultFilterEnum>(
         props.defaultFilter == "useSavedFilter" ? (props.savedFilter as DefaultFilterEnum) : props.defaultFilter
     );
-    const [value, setValue] = useState<Date | undefined>(undefined);
+    const [value, setValue] = useState<Date | undefined>(props.defaultValue);
     const [rangeValues, setRangeValues] = useState<RangeDateValue>([props.defaultStartDate, props.defaultEndDate]);
     const pickerRef = useRef<DatePickerComponent | null>(null);
 
     useEffect(() => {
-        if (props.defaultValue && value?.getTime() != props.defaultValue.getTime()) {
+        if (props.defaultValue && value?.toISOString() != props.defaultValue.toISOString()) {
             setValue(props.defaultValue);
         }
     }, [props.defaultValue]);

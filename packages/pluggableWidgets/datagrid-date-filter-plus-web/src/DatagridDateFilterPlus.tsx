@@ -102,7 +102,7 @@ export default function DatagridDateFilter(props: DatagridDateFilterPlusContaine
                     return <Alert bootstrapStyle="danger">{errorMessage}</Alert>;
                 }
 
-                const filterComponentReturned = (
+                return (
                     <FilterPlusComponent
                         adjustable={props.adjustable}
                         className={props.class}
@@ -189,28 +189,11 @@ export default function DatagridDateFilter(props: DatagridDateFilterPlusContaine
                         }}
                     />
                 );
-
-                return filterComponentReturned;
             }}
         </FilterContext.Consumer>
     ) : (
         alertMessage
     );
-}
-
-// function findAttributesByType(multipleAttributes?: {
-//     [key: string]: ListAttributeValue;
-// }): ListAttributeValue[] | undefined {
-//     if (!multipleAttributes) {
-//         return undefined;
-//     }
-//     return Object.keys(multipleAttributes)
-//         .map(key => multipleAttributes[key])
-//         .filter(attr => attr.type === "DateTime");
-// }
-
-function getAttributeTypeErrorMessage(type?: string): string | null {
-    return type && type !== "DateTime" ? "The attribute type being used for Date filter is not 'Date and time'" : null;
 }
 
 /**
@@ -231,13 +214,14 @@ function findAttributesByName(
     if (!multipleAttributes) {
         return undefined;
     }
-    return (
-        Object.keys(multipleAttributes)
-            .map(key => multipleAttributes[key])
-            // .filter(attr => attr.type.match(/Enum|Boolean/));
-            .filter(attr => attr.filterName === filterName)
-            .map(attr => attr.filter)
-    );
+    return Object.keys(multipleAttributes)
+        .map(key => multipleAttributes[key])
+        .filter(attr => attr.filterName === filterName)
+        .map(attr => attr.filter);
+}
+
+function getAttributeTypeErrorMessage(type?: string): string | null {
+    return type && type !== "DateTime" ? "The attribute type being used for Date filter is not 'Date and time'" : null;
 }
 
 function getFilterCondition(
