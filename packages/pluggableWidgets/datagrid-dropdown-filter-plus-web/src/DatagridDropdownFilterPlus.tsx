@@ -16,7 +16,6 @@ import { FilterCondition } from "mendix/filters";
 export default function DatagridDropdownFilterPlus(props: DatagridDropdownFilterPlusContainerProps): ReactElement {
     const id = useRef(`DropdownFilterPlus${generateUUID()}`);
 
-    // const FilterContext = getFilterDispatcher();
     const FilterContext = getNoLimitFilterDispatcher();
     const isAllOptionsReady = props.filterOptions.every(
         ({ value, caption }) => value.status === ValueStatus.Available && caption.status === ValueStatus.Available
@@ -118,54 +117,12 @@ export default function DatagridDropdownFilterPlus(props: DatagridDropdownFilter
                 );
 
                 return filterComponentReturned;
-
-                // return (
-                //     <FilterComponentPlus
-                //         ariaLabel={props.ariaLabel?.value}
-                //         className={props.class}
-                //         defaultValue={defaultValues ? defaultValues : props.defaultValue?.value}
-                //         emptyOptionCaption={props.emptyOptionCaption?.value}
-                //         multiSelect={props.multiSelect}
-                //         id={id.current}
-                //         options={options}
-                //         styles={props.style}
-                //         tabIndex={props.tabIndex}
-                //         updateFilters={(values: FilterOptionPlus[]): void => {
-                //             const valuesString = values.map(v => v.value).join(",");
-                //             const attributeCurrentValue = props.valueAttribute?.value || "";
-                //             if (valuesString !== attributeCurrentValue) {
-                //                 props.valueAttribute?.setValue(valuesString);
-                //                 props.onChange?.execute();
-                //             }
-                //             const conditions = attributes
-                //                 ?.map(attribute => getFilterCondition(attribute, values))
-                //                 .filter((filter): filter is FilterCondition => filter !== undefined);
-                //             filterDispatcher({
-                //                 getFilterCondition: () =>
-                //                     conditions && conditions.length > 1 ? or(...conditions) : conditions?.[0],
-                //                 filterType: NoLimitFilterType.ENUMERATION,
-                //                 key: props.name
-                //             });
-                //         }}
-                //     />
-                // );
             }}
         </FilterContext.Consumer>
     ) : (
         alertMessage
     );
 }
-
-// function findAttributesByType(multipleAttributes?: {
-//     [key: string]: ListAttributeValue;
-// }): ListAttributeValue[] | undefined {
-//     if (!multipleAttributes) {
-//         return undefined;
-//     }
-//     return Object.keys(multipleAttributes)
-//         .map(key => multipleAttributes[key])
-//         .filter(attr => attr.type.match(/Enum|Boolean/));
-// }
 
 /**
  * Finds the attribute ("Filter attribute") that a filter widget will be used
