@@ -118,9 +118,22 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
                             if (shouldExecuteOnChange) {
                                 props.onChange?.execute();
                             }
-                            const conditions = attributes
-                                ?.map(attribute => getFilterCondition(attribute, value, type))
-                                .filter((filter): filter is FilterCondition => filter !== undefined);
+
+                            let separator = props.separator?.value ?? "";
+                            let values = separator != "" ? value.split(separator) : [value];
+                            let conditions: FilterCondition[] = [];
+
+                            for (value of values) {
+                                conditions = conditions.concat(
+                                    attributes
+                                        .map(attribute => getFilterCondition(attribute, value, type))
+                                        .filter((filter): filter is FilterCondition => filter !== undefined)
+                                );
+                            }
+
+                            // const conditions = attributes
+                            //     ?.map(attribute => getFilterCondition(attribute, value, type))
+                            //     .filter((filter): filter is FilterCondition => filter !== undefined);
                             filterDispatcher({
                                 getFilterCondition: () =>
                                     conditions && conditions.length > 1 ? or(...conditions) : conditions?.[0],

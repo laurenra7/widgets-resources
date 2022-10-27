@@ -51,6 +51,10 @@
                     <caption>Placeholder</caption>
                     <description />
                 </property>
+                <property key="separator" type="textTemplate" required="false">
+                    <caption>Separator</caption>
+                    <description>Separator for values to OR</description>
+                </property>
                 <property key="adjustable" type="boolean" defaultValue="true">
                     <caption>Adjustable by user</caption>
                     <description />
