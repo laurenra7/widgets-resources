@@ -31,6 +31,7 @@ export interface DatagridTextFilterPlusContainerProps {
     savedFilter?: DynamicValue<string>;
     filterAttribute?: EditableValue<string>;
     placeholder?: DynamicValue<string>;
+    separator?: DynamicValue<string>;
     adjustable: boolean;
     delay: number;
     valueAttribute?: EditableValue<string>;
@@ -50,6 +51,7 @@ export interface DatagridTextFilterPlusPreviewProps {
     savedFilter: string;
     filterAttribute: string;
     placeholder: string;
+    separator: string;
     adjustable: boolean;
     delay: number | null;
     valueAttribute: string;
