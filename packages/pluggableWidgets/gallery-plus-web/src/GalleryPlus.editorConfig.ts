@@ -1,15 +1,22 @@
 import {
     ContainerProps,
     DropZoneProps,
+    // hidePropertiesIn,
+    // hidePropertyIn,
+    // Problem,
+    // Properties,
+    RowLayoutProps,
+    StructurePreviewProps
+    // transformGroupsIntoTabs
+} from "@mendix/piw-utils-internal";
+import { GalleryPlusPreviewProps } from "../typings/GalleryPlusProps";
+import {
     hidePropertiesIn,
     hidePropertyIn,
     Problem,
     Properties,
-    RowLayoutProps,
-    StructurePreviewProps,
     transformGroupsIntoTabs
-} from "@mendix/piw-utils-internal";
-import { GalleryPlusPreviewProps } from "../typings/GalleryPlusProps";
+} from "@mendix/pluggable-widgets-tools";
 
 export function getProperties(
     values: GalleryPlusPreviewProps,
