@@ -14,13 +14,13 @@ describe("Filter component", () => {
     });
 
     it("renders correctly", () => {
-        const component = render(<FilterPlusComponent adjustable defaultFilter="equal" />);
+        const component = render(<FilterPlusComponent adjustable defaultFilter="equal" savedFilter={""} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly when not adjustable by user", () => {
-        const component = render(<FilterPlusComponent adjustable={false} defaultFilter="equal" />);
+        const component = render(<FilterPlusComponent adjustable={false} defaultFilter="equal" savedFilter={""} />);
 
         expect(component).toMatchSnapshot();
     });
@@ -32,6 +32,7 @@ describe("Filter component", () => {
                 screenReaderButtonCaption="my label"
                 screenReaderInputCaption="my label"
                 defaultFilter="equal"
+                savedFilter={""}
             />
         );
 

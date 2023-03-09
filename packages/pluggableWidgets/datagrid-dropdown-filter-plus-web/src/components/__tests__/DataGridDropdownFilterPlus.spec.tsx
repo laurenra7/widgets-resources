@@ -1,4 +1,4 @@
-import { Alert, FilterContextValue } from "@mendix/piw-utils-internal/components/web";
+import { Alert, FilterContextValue, NoLimitFilterContextValue } from "@mendix/piw-utils-internal/components/web";
 import { actionValue, dynamicValue, EditableValueBuilder, ListAttributeValueBuilder } from "@mendix/piw-utils-internal";
 import { createContext, createElement } from "react";
 import DatagridDropdownFilterPlus from "../../DatagridDropdownFilterPlus";
@@ -95,28 +95,34 @@ describe("Dropdown Filter", () => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
                     filterDispatcher: jest.fn(),
                     multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withUniverse(["enum_value_1", "enum_value_2"])
-                            .withType("Enum")
-                            .withFilterable(true)
-                            .withFormatter(
-                                value => value,
-                                () => console.log("Parsed")
-                            )
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withUniverse([true, false])
-                            .withType("Boolean")
-                            .withFilterable(true)
-                            .withFormatter(
-                                value => (value ? "Yes" : "No"),
-                                () => console.log("Parsed")
-                            )
-                            .build()
+                        attribute1: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withUniverse(["enum_value_1", "enum_value_2"])
+                                .withType("Enum")
+                                .withFilterable(true)
+                                .withFormatter(
+                                    value => value,
+                                    () => console.log("Parsed")
+                                )
+                                .build(),
+                            filterName: "filter-test"
+                        },
+                        attribute2: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute2")
+                                .withUniverse([true, false])
+                                .withType("Boolean")
+                                .withFilterable(true)
+                                .withFormatter(
+                                    value => (value ? "Yes" : "No"),
+                                    () => console.log("Parsed")
+                                )
+                                .build(),
+                            filterName: "filter-test"
+                        }
                     }
-                } as FilterContextValue);
+                } as NoLimitFilterContextValue);
             });
 
             describe("with auto options", () => {
@@ -179,18 +185,24 @@ describe("Dropdown Filter", () => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
                     filterDispatcher: jest.fn(),
                     multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("String")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("Decimal")
-                            .withFilterable(true)
-                            .build()
+                        attribute1: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("String")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "filter-test"
+                        },
+                        attribute2: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute2")
+                                .withType("Decimal")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "filter-test"
+                        }
                     }
-                } as FilterContextValue);
+                } as NoLimitFilterContextValue);
             });
 
             it("renders error message", () => {
@@ -199,7 +211,7 @@ describe("Dropdown Filter", () => {
                 );
 
                 expect(filter.find(Alert).text()).toBe(
-                    'The Drop-down filter widget can\'t be used with the filters options you have selected. It requires a "Boolean or Enumeration" attribute to be selected.'
+                    "The attribute type being used for Drop-down filter is not 'Boolean or Enumeration'"
                 );
             });
 
@@ -260,18 +272,24 @@ describe("Dropdown Filter", () => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
                     filterDispatcher: jest.fn(),
                     multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withUniverse(["enum_value_1", "enum_value_2"])
-                            .withType("Enum")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withUniverse([true, false])
-                            .withType("Boolean")
-                            .withFilterable(true)
-                            .build()
+                        attribute1: {
+                            filter: new ListAttributeValueBuilder()
+                                .withUniverse(["enum_value_1", "enum_value_2"])
+                                .withType("Enum")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "filter-test"
+                        },
+                        attribute2: {
+                            filter: new ListAttributeValueBuilder()
+                                .withUniverse([true, false])
+                                .withType("Boolean")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "filter-test"
+                        }
                     }
-                } as FilterContextValue);
+                } as NoLimitFilterContextValue);
             });
 
             it("renders error message", () => {
