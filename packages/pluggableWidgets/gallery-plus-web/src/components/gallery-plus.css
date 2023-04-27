@@ -1,20 +1,13 @@
-#pagination-bottom {
-  position: sticky !important;
-  bottom: 0;
-  background-color: white;
-  z-index: 1;
-}
-
-#pagination-top {
-  position: sticky !important;
-  top: 0;
-  background-color: white;
-  z-index: 1;
-}
-
 .widget-gallery-plus-pagination {
   position: sticky !important;
   top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+.widget-gallery-plus-pagination-bottom {
+  position: sticky !important;
+  bottom: 0;
   background-color: white;
   z-index: 1;
 }

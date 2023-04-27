@@ -45,12 +45,23 @@ export function GalleryPlusComponent<T extends ObjectItem>(props: GalleryPlusCom
         </div>
     ) : null;
 
+    const pagination_bottom = props.paging ? (
+        <div className="widget-gallery-plus-pagination-bottom">
+            <Pagination
+                canNextPage={props.hasMoreItems}
+                canPreviousPage={props.page !== 0}
+                gotoPage={(page: number) => props.setPage && props.setPage(() => page)}
+                nextPage={() => props.setPage && props.setPage(prev => prev + 1)}
+                numberOfItems={props.numberOfItems}
+                page={props.page}
+                pageSize={props.pageSize}
+                previousPage={() => props.setPage && props.setPage(prev => prev - 1)}
+            />
+        </div>
+    ) : null;
+
     return (
-        <div
-            id="pagination-top"
-            className={classNames("widget-gallery", props.className)}
-            data-focusindex={props.tabIndex || 0}
-        >
+        <div className={classNames("widget-gallery", props.className)} data-focusindex={props.tabIndex || 0}>
             {(props.paginationPosition === "above" || props.paginationPosition === "both") && pagination}
             <div className="widget-gallery-plus-filter" role="section" aria-label={props.filtersTitle}>
                 {props.filters}
@@ -105,7 +116,7 @@ export function GalleryPlusComponent<T extends ObjectItem>(props: GalleryPlusCom
                         <div className="empty-placeholder">{children}</div>
                     </div>
                 ))}
-            {(props.paginationPosition === "below" || props.paginationPosition === "both") && pagination}
+            {(props.paginationPosition === "below" || props.paginationPosition === "both") && pagination_bottom}
         </div>
     );
 }
