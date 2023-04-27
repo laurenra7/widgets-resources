@@ -2,6 +2,7 @@ import { createElement, ReactElement, ReactNode } from "react";
 import { InfiniteBody, Pagination } from "@mendix/piw-utils-internal/components/web";
 import { ObjectItem } from "mendix";
 import classNames from "classnames";
+import "./gallery-plus.css";
 
 export interface GalleryPlusComponentProps<T extends ObjectItem> {
     className?: string;
@@ -20,7 +21,7 @@ export interface GalleryPlusComponentProps<T extends ObjectItem> {
     paging: boolean;
     page: number;
     pageSize: number;
-    paginationPosition?: "below" | "above";
+    paginationPosition?: "below" | "above" | "both";
     preview?: boolean;
     phoneItems: number;
     setPage?: (computePage: (prevPage: number) => number) => void;
@@ -45,8 +46,12 @@ export function GalleryPlusComponent<T extends ObjectItem>(props: GalleryPlusCom
     ) : null;
 
     return (
-        <div className={classNames("widget-gallery", props.className)} data-focusindex={props.tabIndex || 0}>
-            {props.paginationPosition === "above" && pagination}
+        <div
+            id="pagination-top"
+            className={classNames("widget-gallery", props.className)}
+            data-focusindex={props.tabIndex || 0}
+        >
+            {(props.paginationPosition === "above" || props.paginationPosition === "both") && pagination}
             <div className="widget-gallery-plus-filter" role="section" aria-label={props.filtersTitle}>
                 {props.filters}
             </div>
@@ -100,7 +105,7 @@ export function GalleryPlusComponent<T extends ObjectItem>(props: GalleryPlusCom
                         <div className="empty-placeholder">{children}</div>
                     </div>
                 ))}
-            {props.paginationPosition === "below" && pagination}
+            {(props.paginationPosition === "below" || props.paginationPosition === "both") && pagination}
         </div>
     );
 }
