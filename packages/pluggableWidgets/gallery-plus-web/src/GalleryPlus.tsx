@@ -139,9 +139,9 @@ export function GalleryPlus(props: GalleryPlusContainerProps): ReactElement {
                                     if (prev.key) {
                                         console.log(prev.key);
                                         if (filterState !== undefined) {
+                                            filterState[prev.key] = prev;
                                             setFilterState({
-                                                ...filterState,
-                                                [prev.key]: prev
+                                                ...filterState
                                             });
                                             setFiltered(true);
                                         }

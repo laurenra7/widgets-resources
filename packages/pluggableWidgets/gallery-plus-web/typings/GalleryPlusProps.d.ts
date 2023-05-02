@@ -16,7 +16,7 @@ import { Big } from "big.js";
 
 export type PaginationEnum = "buttons" | "virtualScrolling";
 
-export type PagingPositionEnum = "below" | "above";
+export type PagingPositionEnum = "below" | "above" | "both";
 
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
 

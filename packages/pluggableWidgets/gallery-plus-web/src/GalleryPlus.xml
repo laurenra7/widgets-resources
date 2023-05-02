@@ -54,6 +54,7 @@
                     <enumerationValues>
                         <enumerationValue key="below">Below grid</enumerationValue>
                         <enumerationValue key="above">Above grid</enumerationValue>
+                        <enumerationValue key="both">Above and Below grid</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="showEmptyPlaceholder" type="enumeration" defaultValue="none">
