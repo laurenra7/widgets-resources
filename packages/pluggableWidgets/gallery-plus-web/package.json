@@ -10,7 +10,7 @@
     "url": "https://github.com/mendix/widgets-resources.git"
   },
   "config": {
-    "projectPath": "C:\\Users\\Jacob Speakman\\Documents\\Mendix\\Capital Needs Analysis-jspeakma-widget-testing",
+    "projectPath": "C:\\Users\\imcgill\\Documents\\Mendix\\Capital Needs Analysis-pagination_enhancement",
     "mendixHost": "http://localhost:8080",
     "developmentPort": 3000
   },

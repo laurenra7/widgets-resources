@@ -1,0 +1,18 @@
+.mx-scrollcontainer-fixed > .mx-scrollcontainer-middle > .mx-scrollcontainer-wrapper {
+  overflow: clip !important;
+}
+
+
+.widget-gallery-plus-pagination {
+  position: sticky;
+  top: 0;
+  background-color: #c5c5c5;
+  z-index: 1;
+}
+
+.widget-gallery-plus-pagination-bottom {
+  position: sticky;
+  bottom: 0;
+  background-color: #c5c5c5;
+  z-index: 1;
+}
