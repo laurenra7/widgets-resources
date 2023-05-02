@@ -1,4 +1,4 @@
-import { Alert, FilterContextValue } from "@mendix/piw-utils-internal/components/web";
+import { Alert, FilterContextValue, NoLimitFilterContextValue } from "@mendix/piw-utils-internal/components/web";
 import { actionValue, dynamicValue, EditableValueBuilder, ListAttributeValueBuilder } from "@mendix/piw-utils-internal";
 import { mount } from "enzyme";
 import { render, fireEvent, screen, act } from "@testing-library/react";
@@ -98,18 +98,24 @@ describe("Date Filter Plus", () => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
                     filterDispatcher: jest.fn(),
                     multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("DateTime")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("DateTime")
-                            .withFilterable(true)
-                            .build()
+                        attribute1: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("DateTime")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "test-filter"
+                        },
+                        attribute2: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute2")
+                                .withType("DateTime")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "filter-test"
+                        }
                     }
-                } as FilterContextValue);
+                } as NoLimitFilterContextValue);
                 (window as any).mx = mxObject;
 
                 jest.spyOn(global.Math, "random").mockReturnValue(0.123456789);
@@ -153,18 +159,24 @@ describe("Date Filter Plus", () => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
                     filterDispatcher: jest.fn(),
                     multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("String")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("Decimal")
-                            .withFilterable(true)
-                            .build()
+                        attribute1: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("String")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "filter-test"
+                        },
+                        attribute2: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute2")
+                                .withType("Decimal")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "filter-test"
+                        }
                     }
-                } as FilterContextValue);
+                } as NoLimitFilterContextValue);
                 (window as any).mx = mxObject;
             });
 
@@ -172,7 +184,7 @@ describe("Date Filter Plus", () => {
                 const filter = mount(<DatagridDateFilter {...commonProps} />);
 
                 expect(filter.find(Alert).text()).toBe(
-                    'The Date filter widget can\'t be used with the filters options you have selected. It requires a "Date and Time" attribute to be selected.'
+                    "The attribute type being used for Date filter is not 'Date and time'"
                 );
             });
 
