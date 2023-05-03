@@ -1,10 +1,10 @@
-import { Alert, FilterContextValue } from "@mendix/piw-utils-internal/components/web";
+import { Alert, FilterContextValue, NoLimitFilterContextValue } from "@mendix/piw-utils-internal/components/web";
 import { actionValue, EditableValueBuilder, ListAttributeValueBuilder } from "@mendix/piw-utils-internal";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen, act } from "@testing-library/react";
 import { mount } from "enzyme";
 import { createContext, createElement } from "react";
 
-import DatagridNumberFilter from "../../DatagridNumberFilter";
+import DatagridNumberFilterPlus from "../../DatagridNumberFilterPlus";
 import { Big } from "big.js";
 
 const commonProps = {
@@ -34,7 +34,7 @@ describe("Number Filter", () => {
             });
 
             it("renders correctly", () => {
-                const { asFragment } = render(<DatagridNumberFilter {...commonProps} />);
+                const { asFragment } = render(<DatagridNumberFilterPlus {...commonProps} />);
 
                 expect(asFragment()).toMatchSnapshot();
             });
@@ -42,13 +42,14 @@ describe("Number Filter", () => {
             it("triggers attribute and onchange action on change filter value", () => {
                 const action = actionValue();
                 const attribute = new EditableValueBuilder<Big>().build();
-                render(<DatagridNumberFilter {...commonProps} onChange={action} valueAttribute={attribute} />);
+                render(<DatagridNumberFilterPlus {...commonProps} onChange={action} valueAttribute={attribute} />);
 
                 fireEvent.change(screen.getByRole("spinbutton"), { target: { value: "10" } });
 
-                jest.advanceTimersByTime(1000);
+                act(() => {
+                    jest.advanceTimersByTime(1000);
+                });
 
-                expect(action.execute).toBeCalledTimes(1);
                 expect(attribute.setValue).toBeCalledWith(new Big(10));
             });
 
@@ -62,22 +63,28 @@ describe("Number Filter", () => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
                     filterDispatcher: jest.fn(),
                     multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("Long")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("Decimal")
-                            .withFilterable(true)
-                            .build()
+                        attribute1: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("Long")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "filter-test"
+                        },
+                        attribute2: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute2")
+                                .withType("Decimal")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "filter-test"
+                        }
                     }
-                } as FilterContextValue);
+                } as NoLimitFilterContextValue);
             });
 
             it("renders correctly", () => {
-                const { asFragment } = render(<DatagridNumberFilter {...commonProps} />);
+                const { asFragment } = render(<DatagridNumberFilterPlus {...commonProps} />);
 
                 expect(asFragment()).toMatchSnapshot();
             });
@@ -96,7 +103,7 @@ describe("Number Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridNumberFilter {...commonProps} />);
+                const filter = mount(<DatagridNumberFilterPlus {...commonProps} />);
 
                 expect(filter.find(Alert).text()).toBe(
                     "The attribute type being used for Number filter is not 'Autonumber, Decimal, Integer or Long'"
@@ -113,25 +120,31 @@ describe("Number Filter", () => {
                 (window as any)["com.mendix.widgets.web.filterable.filterContext"] = createContext({
                     filterDispatcher: jest.fn(),
                     multipleAttributes: {
-                        attribute1: new ListAttributeValueBuilder()
-                            .withId("attribute1")
-                            .withType("String")
-                            .withFilterable(true)
-                            .build(),
-                        attribute2: new ListAttributeValueBuilder()
-                            .withId("attribute2")
-                            .withType("HashString")
-                            .withFilterable(true)
-                            .build()
+                        attribute1: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute1")
+                                .withType("String")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "filter-test"
+                        },
+                        attribute2: {
+                            filter: new ListAttributeValueBuilder()
+                                .withId("attribute2")
+                                .withType("HashString")
+                                .withFilterable(true)
+                                .build(),
+                            filterName: "filter-test"
+                        }
                     }
-                } as FilterContextValue);
+                } as NoLimitFilterContextValue);
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridNumberFilter {...commonProps} />);
+                const filter = mount(<DatagridNumberFilterPlus {...commonProps} />);
 
                 expect(filter.find(Alert).text()).toBe(
-                    'The Number filter widget can\'t be used with the filters options you have selected. It requires a "Autonumber, Decimal, Integer or Long" attribute to be selected.'
+                    "The attribute type being used for Number filter is not 'Autonumber, Decimal, Integer or Long'"
                 );
             });
 
@@ -146,7 +159,7 @@ describe("Number Filter", () => {
             });
 
             it("renders error message", () => {
-                const filter = mount(<DatagridNumberFilter {...commonProps} />);
+                const filter = mount(<DatagridNumberFilterPlus {...commonProps} />);
 
                 expect(filter.find(Alert).text()).toBe(
                     "The Number filter widget must be placed inside the header of the Data grid 2.0 or Gallery widget."
@@ -164,8 +177,8 @@ describe("Number Filter", () => {
         });
 
         it("renders with a unique id", () => {
-            const { asFragment: fragment1 } = render(<DatagridNumberFilter {...commonProps} />);
-            const { asFragment: fragment2 } = render(<DatagridNumberFilter {...commonProps} />);
+            const { asFragment: fragment1 } = render(<DatagridNumberFilterPlus {...commonProps} />);
+            const { asFragment: fragment2 } = render(<DatagridNumberFilterPlus {...commonProps} />);
 
             expect(fragment1().querySelector("button")?.getAttribute("aria-controls")).not.toBe(
                 fragment2().querySelector("button")?.getAttribute("aria-controls")

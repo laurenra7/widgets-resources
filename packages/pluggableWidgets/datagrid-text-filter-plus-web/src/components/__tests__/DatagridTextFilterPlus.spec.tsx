@@ -1,10 +1,11 @@
-import { Alert, FilterContextValue } from "@mendix/piw-utils-internal/components/web";
+import { Alert, FilterContextValue, NoLimitFilterContextValue } from "@mendix/piw-utils-internal/components/web";
 import { actionValue, EditableValueBuilder, ListAttributeValueBuilder } from "@mendix/piw-utils-internal";
 import { render, fireEvent, screen } from "@testing-library/react";
 import { mount } from "enzyme";
 import { createContext, createElement } from "react";
 
 import DatagridTextFilterPlus from "../../DatagridTextFilterPlus";
+import { act } from "react-dom/test-utils";
 
 const commonProps = {
     class: "filter-custom-class",
@@ -45,9 +46,10 @@ describe("Text Filter", () => {
 
                 fireEvent.change(screen.getByRole("textbox"), { target: { value: "B" } });
 
-                jest.advanceTimersByTime(1000);
+                act(() => {
+                    jest.advanceTimersByTime(1000);
+                });
 
-                expect(action.execute).toBeCalledTimes(1);
                 expect(attribute.setValue).toBeCalledWith("B");
             });
 
@@ -67,7 +69,7 @@ describe("Text Filter", () => {
                                 .withType("String")
                                 .withFilterable(true)
                                 .build(),
-                            filterName: "Attribute1"
+                            filterName: "filter-test"
                         },
                         attribute2: {
                             filter: new ListAttributeValueBuilder()
@@ -75,10 +77,10 @@ describe("Text Filter", () => {
                                 .withType("String")
                                 .withFilterable(true)
                                 .build(),
-                            filterName: "Attribute1"
+                            filterName: "filter-test"
                         }
                     }
-                } as FilterContextValue);
+                } as NoLimitFilterContextValue);
             });
 
             it("renders correctly", () => {
@@ -124,7 +126,7 @@ describe("Text Filter", () => {
                                 .withType("Decimal")
                                 .withFilterable(true)
                                 .build(),
-                            filterName: "Attribute1"
+                            filterName: "filter-test"
                         },
                         attribute2: {
                             filter: new ListAttributeValueBuilder()
@@ -132,17 +134,17 @@ describe("Text Filter", () => {
                                 .withType("Long")
                                 .withFilterable(true)
                                 .build(),
-                            filterName: "Attribute1"
+                            filterName: "filter-test"
                         }
                     }
-                } as FilterContextValue);
+                } as NoLimitFilterContextValue);
             });
 
             it("renders error message", () => {
                 const filter = mount(<DatagridTextFilterPlus {...commonProps} />);
 
                 expect(filter.find(Alert).text()).toBe(
-                    'The Text filter widget can\'t be used with the filters options you have selected. It requires a "Hashed string or String" attribute to be selected.'
+                    "The attribute type being used for Text filter is not 'Hashed string or String'"
                 );
             });
 

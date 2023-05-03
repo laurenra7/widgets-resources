@@ -6,13 +6,17 @@ jest.useFakeTimers();
 
 describe("Filter component", () => {
     it("renders correctly", () => {
-        const component = render(<FilterPlusComponent adjustable defaultFilter="contains" delay={500} />);
+        const component = render(
+            <FilterPlusComponent adjustable defaultFilter="contains" delay={500} savedFilter={""} />
+        );
 
         expect(component).toMatchSnapshot();
     });
 
     it("renders correctly when not adjustable by user", () => {
-        const component = render(<FilterPlusComponent adjustable={false} defaultFilter="contains" delay={500} />);
+        const component = render(
+            <FilterPlusComponent adjustable={false} defaultFilter="contains" delay={500} savedFilter={""} />
+        );
 
         expect(component).toMatchSnapshot();
     });
@@ -25,6 +29,7 @@ describe("Filter component", () => {
                 screenReaderInputCaption="my label"
                 defaultFilter="contains"
                 delay={500}
+                savedFilter={""}
             />
         );
 
@@ -34,7 +39,13 @@ describe("Filter component", () => {
     it("calls updateFilters when value changes", () => {
         const updateFiltersHandler = jest.fn();
         const component = shallow(
-            <FilterPlusComponent adjustable defaultFilter="contains" delay={500} updateFilters={updateFiltersHandler} />
+            <FilterPlusComponent
+                adjustable
+                defaultFilter="contains"
+                delay={500}
+                updateFilters={updateFiltersHandler}
+                savedFilter={""}
+            />
         );
 
         const input = component.find("input");
@@ -46,7 +57,13 @@ describe("Filter component", () => {
     it("debounces calls for updateFilters when value changes", () => {
         const updateFiltersHandler = jest.fn();
         const component = shallow(
-            <FilterPlusComponent adjustable defaultFilter="contains" delay={500} updateFilters={updateFiltersHandler} />
+            <FilterPlusComponent
+                adjustable
+                defaultFilter="contains"
+                delay={500}
+                updateFilters={updateFiltersHandler}
+                savedFilter={""}
+            />
         );
 
         // Initial call with default filter
