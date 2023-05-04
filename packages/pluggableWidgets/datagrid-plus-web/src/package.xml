@@ -5,7 +5,7 @@
             <widgetFile path="DatagridPlus.xml" />
         </widgetFiles>
         <files>
-            <file path="com/mendix/widget/web/datagrid/" />
+            <file path="com/mendix/widget/web/datagridplus/" />
         </files>
     </clientModule>
 </package>
