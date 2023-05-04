@@ -4,7 +4,7 @@
  * @author Mendix UI Content Team
  */
 import { CSSProperties } from "react";
-import { DynamicValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue } from "mendix";
 
 export interface DropdownSortContainerProps {
     name: string;
@@ -12,6 +12,9 @@ export interface DropdownSortContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     emptyOptionCaption?: DynamicValue<string>;
+    defaultValue?: DynamicValue<string>;
+    valueAttribute?: EditableValue<string>;
+    onChange?: ActionValue;
     screenReaderButtonCaption?: DynamicValue<string>;
     screenReaderInputCaption?: DynamicValue<string>;
 }
@@ -22,6 +25,9 @@ export interface DropdownSortPreviewProps {
     styleObject?: CSSProperties;
     readOnly: boolean;
     emptyOptionCaption: string;
+    defaultValue: string;
+    valueAttribute: string;
+    onChange: {} | null;
     screenReaderButtonCaption: string;
     screenReaderInputCaption: string;
 }

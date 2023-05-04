@@ -21,7 +21,7 @@ export function DropdownSort(props: DropdownSortContainerProps): ReactElement {
             The Drop-down sort widget must be placed inside the header of the Gallery widget.
         </Alert>
     );
-    const { sortDispatcher, attributes, initialSort } = useContext(SortContext) ?? {};
+    const { sortDispatcher, attributes } = useContext(SortContext) ?? {};
 
     let defaultValue;
     let defaultDirection;
@@ -39,6 +39,10 @@ export function DropdownSort(props: DropdownSortContainerProps): ReactElement {
 
     const updateSort = useCallback(
         (value: SortOption, direction: SortDirection): void => {
+            if (props.valueAttribute?.value != value.value) {
+                props.valueAttribute?.setValue(value.value);
+                props.onChange?.execute();
+            }
             const filteredOption = attributes?.find(attr => attr.attribute.id === value.value);
             sortDispatcher({
                 getSortCondition: () => getSortCondition(filteredOption?.attribute, direction, value)
@@ -51,17 +55,19 @@ export function DropdownSort(props: DropdownSortContainerProps): ReactElement {
         return alertMessage;
     }
 
-    if (initialSort && initialSort.length > 0) {
-        // Keeping the code in order to implement a future multi-sorting
-        const [sort] = initialSort;
-        const [id, direction] = sort;
-        if (id) {
-            defaultValue = options.find(option => option.value === String(id));
-        }
-        if (direction) {
-            defaultDirection = direction;
-        }
-    }
+    // if (initialSort && initialSort.length > 0) {
+    //     // Keeping the code in order to implement a future multi-sorting
+    //     const [sort] = initialSort;
+    //     const [id, direction] = sort;
+    //     if (id) {
+    //         defaultValue = options.find(option => option.value === String(id));
+    //     }
+    //     if (direction) {
+    //         defaultDirection = direction;
+    //     }
+    // }
+
+    defaultValue = options.find(sortOption => sortOption.value == props.defaultValue?.value);
 
     return (
         <SortComponent

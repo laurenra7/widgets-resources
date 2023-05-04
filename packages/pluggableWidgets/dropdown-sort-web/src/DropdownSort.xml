@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<widget id="com.mendix.widget.web.dropdownsort.DropdownSort" pluginWidget="true" offlineCapable="true"
-        xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.dropdownsort.DropdownSort" pluginWidget="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../../../../node_modules/mendix/custom_widget.xsd">
     <name>Drop-down sort</name>
-    <description/>
+    <description />
     <studioProCategory>Data controls</studioProCategory>
     <studioCategory>Data Controls</studioCategory>
     <helpUrl>https://docs.mendix.com/appstore/modules/gallery#4-1-drop-down-sort</helpUrl>
@@ -13,6 +11,26 @@
                 <property key="emptyOptionCaption" type="textTemplate" required="false">
                     <caption>Empty option caption</caption>
                     <description />
+                </property>
+                <property key="defaultValue" type="expression" required="false">
+                    <caption>Default value</caption>
+                    <description />
+                    <returnType type="String" />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Configurations">
+                <property key="valueAttribute" type="attribute" required="false">
+                    <caption>Saved attribute</caption>
+                    <description>Attribute used to store the last value of the filter.</description>
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Events">
+                <property key="onChange" type="action" required="false">
+                    <caption>On change</caption>
+                    <description>Action to be triggered when the value or filter changes.</description>
                 </property>
             </propertyGroup>
         </propertyGroup>
