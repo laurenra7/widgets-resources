@@ -17,11 +17,27 @@
                     <description />
                     <returnType type="String" />
                 </property>
+                <property key="defaultDirection" type="enumeration" defaultValue="asc">
+                    <caption>Default direction</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="asc">Ascending</enumerationValue>
+                        <enumerationValue key="desc">Descending</enumerationValue>
+                        <enumerationValue key="useSavedDirection">Use saved direction</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
             <propertyGroup caption="Configurations">
                 <property key="valueAttribute" type="attribute" required="false">
                     <caption>Saved attribute</caption>
-                    <description>Attribute used to store the last value of the filter.</description>
+                    <description>Attribute used to store the last sort option.</description>
+                    <attributeTypes>
+                        <attributeType name="String" />
+                    </attributeTypes>
+                </property>
+                <property key="savedDirection" type="attribute" required="false">
+                    <caption>Saved direction</caption>
+                    <description>Attribute used to store the last sort direction.</description>
                     <attributeTypes>
                         <attributeType name="String" />
                     </attributeTypes>

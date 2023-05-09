@@ -10,7 +10,8 @@ const commonProps = {
     class: "filter-custom-class",
     tabIndex: 0,
     name: "filter-test",
-    sortOrder: "asc" as const
+    sortOrder: "asc" as const,
+    defaultDirection: "asc" as const
 };
 
 describe("Dropdown Sort", () => {

@@ -24,7 +24,7 @@ export function DropdownSort(props: DropdownSortContainerProps): ReactElement {
     const { sortDispatcher, attributes } = useContext(SortContext) ?? {};
 
     let defaultValue;
-    let defaultDirection;
+    let defaultDirection: SortDirection;
 
     const options = useMemo(
         () => [
@@ -39,8 +39,16 @@ export function DropdownSort(props: DropdownSortContainerProps): ReactElement {
 
     const updateSort = useCallback(
         (value: SortOption, direction: SortDirection): void => {
-            if (props.valueAttribute?.value != value.value) {
-                props.valueAttribute?.setValue(value.value);
+            let changed = false;
+            if (props.valueAttribute?.value != value.caption) {
+                props.valueAttribute?.setValue(value.caption);
+                changed = true;
+            }
+            if (props.savedDirection?.value != direction) {
+                props.savedDirection?.setValue(direction);
+                changed = true;
+            }
+            if (changed) {
                 props.onChange?.execute();
             }
             const filteredOption = attributes?.find(attr => attr.attribute.id === value.value);
@@ -67,7 +75,19 @@ export function DropdownSort(props: DropdownSortContainerProps): ReactElement {
     //     }
     // }
 
-    defaultValue = options.find(sortOption => sortOption.value == props.defaultValue?.value);
+    defaultValue = options.find(sortOption => sortOption.caption == props.defaultValue?.value);
+
+    if (props.defaultDirection == "useSavedDirection") {
+        if (props.savedDirection?.value == "asc") {
+            defaultDirection = "asc";
+        } else if (props.savedDirection?.value == "desc") {
+            defaultDirection = "desc";
+        } else {
+            defaultDirection = "asc";
+        }
+    } else {
+        defaultDirection = props.defaultDirection;
+    }
 
     return (
         <SortComponent
