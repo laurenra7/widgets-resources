@@ -50,6 +50,7 @@ export type ShowEmptyPlaceholderEnum = "none" | "custom";
 
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
+    filterName: string;
 }
 
 export interface ColumnsPreviewType {
@@ -73,6 +74,7 @@ export interface ColumnsPreviewType {
 
 export interface FilterListPreviewType {
     filter: string;
+    filterName: string;
 }
 
 export interface DatagridPlusContainerProps {

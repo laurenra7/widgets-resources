@@ -6,10 +6,14 @@ import { and } from "mendix/filters/builders";
 import { Table, TableColumn } from "./components/Table";
 import {
     FilterFunction,
-    FilterType,
+    // FilterType,
     generateUUID,
-    useFilterContext,
-    useMultipleFiltering
+    // useFilterContext,
+    // useMultipleFiltering,
+    useNoLimitFilterContext,
+    useNoLimitFiltering,
+    // useSortContext,
+    NoLimitFilterFunction
 } from "@mendix/piw-utils-internal/components/web";
 import { isAvailable } from "@mendix/piw-utils-internal";
 import { extractFilters } from "./utils/filters";
@@ -25,8 +29,10 @@ export default function DatagridPlus(props: DatagridPlusContainerProps): ReactEl
         : props.datasource.offset / props.pageSize;
     const viewStateFilters = useRef<FilterCondition | undefined>(undefined);
     const [filtered, setFiltered] = useState(false);
-    const multipleFilteringState = useMultipleFiltering();
-    const { FilterContext } = useFilterContext();
+    // const multipleFilteringState = useMultipleFiltering();
+    const [filterState, setFilterState] = useNoLimitFiltering();
+    // const { FilterContext } = useFilterContext();
+    const { FilterContext } = useNoLimitFilterContext();
     const cellRenderer = useCellRenderer({ columns: props.columns, onClick: props.onClick });
 
     useEffect(() => {
@@ -56,15 +62,24 @@ export default function DatagridPlus(props: DatagridPlusContainerProps): ReactEl
 
     const customFiltersState = props.columns.map(() => useState<FilterFunction>());
 
-    const filters = customFiltersState
-        .map(([customFilter]) => customFilter?.getFilterCondition?.())
-        .filter((filter): filter is FilterCondition => filter !== undefined)
-        .concat(
-            // Concatenating multiple filter state
-            Object.keys(multipleFilteringState)
-                .map((key: FilterType) => multipleFilteringState[key][0]?.getFilterCondition())
-                .filter((filter): filter is FilterCondition => filter !== undefined)
-        );
+    // const filters = customFiltersState
+    //     .map(([customFilter]) => customFilter?.getFilterCondition?.())
+    //     .filter((filter): filter is FilterCondition => filter !== undefined)
+    // .concat(
+    //     // Concatenating multiple filter state
+    //     Object.keys(multipleFilteringState)
+    //         .map((key: FilterType) => multipleFilteringState[key][0]?.getFilterCondition())
+    //         .filter((filter): filter is FilterCondition => filter !== undefined)
+    // );
+    let preFilters: Array<NoLimitFilterFunction> = [];
+    for (let s in filterState) {
+        // const filter = filterState[parseInt(s)];
+        const filter = filterState[s];
+        preFilters.push(filter);
+    }
+    const filters: Array<FilterCondition> = preFilters
+        .map(filter => filter.getFilterCondition())
+        .filter((filter): filter is FilterCondition => filter !== undefined);
 
     if (filters.length > 0) {
         props.datasource.setFilter(filters.length > 1 ? and(...filters) : filters[0]);
@@ -88,7 +103,12 @@ export default function DatagridPlus(props: DatagridPlusContainerProps): ReactEl
      * Multiple filtering properties
      */
     const filterList = useMemo(
-        () => props.filterList.reduce((filters, { filter }) => ({ ...filters, [filter.id]: filter }), {}),
+        () =>
+            props.filterList.reduce(
+                (filters, { filter, filterName }) => ({ ...filters, [filter.id]: { filter, filterName } }),
+                {}
+            ),
+        // () => props.filterList.reduce((filters, { filter }) => ({ ...filters, [filter.id]: filter }), {}),
         [props.filterList]
     );
     const multipleInitialFilters = useMemo(
@@ -122,7 +142,7 @@ export default function DatagridPlus(props: DatagridPlusContainerProps): ReactEl
             filterRenderer={useCallback(
                 (renderWrapper, columnIndex) => {
                     const { attribute, filter } = props.columns[columnIndex];
-                    const [, filterDispatcher] = customFiltersState[columnIndex];
+                    // const [, filterDispatcher] = customFiltersState[columnIndex];
                     const initialFilters = extractFilters(attribute, viewStateFilters.current);
 
                     if (!attribute) {
@@ -133,9 +153,20 @@ export default function DatagridPlus(props: DatagridPlusContainerProps): ReactEl
                         <FilterContext.Provider
                             value={{
                                 filterDispatcher: prev => {
-                                    setFiltered(true);
-                                    filterDispatcher(prev);
+                                    if (prev.key) {
+                                        console.log(prev.key);
+                                        if (filterState !== undefined) {
+                                            filterState[prev.key] = prev;
+                                            setFilterState({
+                                                ...filterState
+                                            });
+                                            setFiltered(true);
+                                        }
+                                    }
                                     return prev;
+                                    // setFiltered(true);
+                                    // filterDispatcher(prev);
+                                    // return prev;
                                 },
                                 singleAttribute: attribute,
                                 singleInitialFilter: initialFilters
@@ -156,12 +187,23 @@ export default function DatagridPlus(props: DatagridPlusContainerProps): ReactEl
                         <FilterContext.Provider
                             value={{
                                 filterDispatcher: prev => {
-                                    if (prev.filterType) {
-                                        const [, filterDispatcher] = multipleFilteringState[prev.filterType];
-                                        filterDispatcher(prev);
-                                        setFiltered(true);
+                                    if (prev.key) {
+                                        console.log(prev.key);
+                                        if (filterState !== undefined) {
+                                            filterState[prev.key] = prev;
+                                            setFilterState({
+                                                ...filterState
+                                            });
+                                            setFiltered(true);
+                                        }
                                     }
                                     return prev;
+                                    // if (prev.filterType) {
+                                    //     const [, filterDispatcher] = multipleFilteringState[prev.filterType];
+                                    //     filterDispatcher(prev);
+                                    //     setFiltered(true);
+                                    // }
+                                    // return prev;
                                 },
                                 multipleAttributes: filterList,
                                 multipleInitialFilters

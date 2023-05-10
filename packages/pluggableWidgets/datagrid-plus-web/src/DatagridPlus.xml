@@ -46,6 +46,7 @@
                                     <attributeType name="Long" />
                                 </attributeTypes>
                             </property>
+
                             <property key="content" type="widgets" dataSource="../datasource" required="false">
                                 <caption>Custom content</caption>
                                 <description />
@@ -233,6 +234,10 @@
                                     <attributeType name="Integer" />
                                     <attributeType name="Long" />
                                 </attributeTypes>
+                            </property>
+                            <property key="filterName" type="string" required="true">
+                                <caption>Filter Widget Name</caption>
+                                <description>Name of the filter widget associated with this attribute.</description>
                             </property>
                         </propertyGroup>
                     </properties>
