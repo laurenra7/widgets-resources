@@ -5,7 +5,7 @@ import { and } from "mendix/filters/builders";
 
 import { Table, TableColumn } from "./components/Table";
 import {
-    FilterFunction,
+    // FilterFunction,
     // FilterType,
     generateUUID,
     // useFilterContext,
@@ -60,7 +60,7 @@ export default function DatagridPlus(props: DatagridPlusContainerProps): ReactEl
         [props.datasource, props.pageSize, isInfiniteLoad, currentPage]
     );
 
-    const customFiltersState = props.columns.map(() => useState<FilterFunction>());
+    // const customFiltersState = props.columns.map(() => useState<FilterFunction>());
 
     // const filters = customFiltersState
     //     .map(([customFilter]) => customFilter?.getFilterCondition?.())
@@ -143,7 +143,7 @@ export default function DatagridPlus(props: DatagridPlusContainerProps): ReactEl
                 (renderWrapper, columnIndex) => {
                     const { attribute, filter } = props.columns[columnIndex];
                     // const [, filterDispatcher] = customFiltersState[columnIndex];
-                    const initialFilters = extractFilters(attribute, viewStateFilters.current);
+                    // const initialFilters = extractFilters(attribute, viewStateFilters.current);
 
                     if (!attribute) {
                         return renderWrapper(filter);
@@ -169,14 +169,14 @@ export default function DatagridPlus(props: DatagridPlusContainerProps): ReactEl
                                     // return prev;
                                 },
                                 singleAttribute: attribute,
-                                singleInitialFilter: initialFilters
+                                multipleInitialFilters: multipleInitialFilters
                             }}
                         >
                             {filter}
                         </FilterContext.Provider>
                     );
                 },
-                [FilterContext, customFiltersState, props.columns]
+                [FilterContext, filterState, props.columns]
             )}
             filtersTitle={props.filterSectionTitle?.value}
             hasMoreItems={props.datasource.hasMoreItems ?? false}
@@ -206,13 +206,13 @@ export default function DatagridPlus(props: DatagridPlusContainerProps): ReactEl
                                     // return prev;
                                 },
                                 multipleAttributes: filterList,
-                                multipleInitialFilters
+                                multipleInitialFilters: multipleInitialFilters
                             }}
                         >
                             {props.filtersPlaceholder}
                         </FilterContext.Provider>
                     ) : null,
-                [FilterContext, customFiltersState, filterList, multipleInitialFilters, props.filtersPlaceholder]
+                [FilterContext, filterState, filterList, multipleInitialFilters, props.filtersPlaceholder]
             )}
             id={id.current}
             numberOfItems={props.datasource.totalCount}
