@@ -37,7 +37,8 @@ export default function DatagridNumberFilterPlus(props: DatagridNumberFilterPlus
     const alertMessageMultipleFilters = (
         <Alert bootstrapStyle="danger">
             The Number filter widget can&apos;t be used with the filters options you have selected. It requires a
-            &quot;Autonumber, Decimal, Integer or Long&quot; attribute to be selected.
+            &quot;Autonumber, Decimal, Integer or Long&quot; attribute to be selected. Or check that you added this to
+            the Filtering tab in the Data grid plus or Gallery plus widget.
         </Alert>
     );
 

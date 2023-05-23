@@ -39,7 +39,8 @@ export default function DatagridTextFilterPlus(props: DatagridTextFilterPlusCont
     const alertMessageMultipleFilters = (
         <Alert bootstrapStyle="danger">
             The Text filter widget can&apos;t be used with the filters options you have selected. It requires a
-            &quot;Hashed string or String&quot; attribute to be selected.
+            &quot;Hashed string or String&quot; attribute to be selected. Or check that you added this to the Filtering
+            tab in the Data grid plus or Gallery plus widget.
         </Alert>
     );
 
