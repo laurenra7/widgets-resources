@@ -56,7 +56,7 @@ export function ColumnSelector(props: ColumnSelectorProps): ReactElement {
             style={{
                 position: "fixed",
                 top: position?.bottom,
-                right: position?.right !== undefined ? document.body.clientWidth - position.right : undefined
+                right: position?.right !== undefined ? document.body.clientWidth - position.right - 130 : undefined
             }}
         >
             {props.columns.map((column: ColumnProperty, index: number) => {
