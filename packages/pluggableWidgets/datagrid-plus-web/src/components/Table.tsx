@@ -232,14 +232,14 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
     return (
         <div className={classNames(props.className, "widget-datagrid-plus")} style={props.styles}>
             <div className="table" role="table">
-                <div className="table-header" role="rowgroup">
-                    {props.pagingPosition === "top" && pagination}
-                </div>
                 {props.headerFilters && (
                     <div className="header-filters" role="rowgroup" aria-label={props.filtersTitle}>
                         {props.headerFilters}
                     </div>
                 )}
+                <div className="table-header" role="rowgroup">
+                    {(props.pagingPosition === "top" || props.pagingPosition === "both") && pagination}
+                </div>
                 <InfiniteBody
                     className="table-content"
                     hasMoreItems={props.hasMoreItems}
@@ -324,7 +324,7 @@ export function Table<T extends ObjectItem>(props: TableProps<T>): ReactElement 
                         ))}
                 </InfiniteBody>
                 <div className="table-footer" role="rowgroup">
-                    {props.pagingPosition === "bottom" && pagination}
+                    {(props.pagingPosition === "bottom" || props.pagingPosition === "both") && pagination}
                 </div>
             </div>
         </div>
